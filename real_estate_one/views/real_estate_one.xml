@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="view_real_estate_tree" model="ir.ui.view">
+        <field name="name">view.real.estate.tree</field>
+        <field name="model">real.estate</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="expected_price"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_real_estate_form" model="ir.ui.view">
+        <field name="name">view.real.estate.form</field>
+        <field name="model">real.estate</field>
+        <field name="arch" type="xml">
+            <form>
+                <header></header>
+                <sheet>
+                <field name="name"/>
+                <field name="expected_price"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="real_estate_action" model="ir.actions.act_window">
+        <field name="name">Real estate action</field>
+        <field name="res_model">real.estate</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="real_estate_menu_root" name="Real Estate"/>
+    <menuitem id="real_estate_first_level_menu" name="Menu" parent="real_estate_menu_root"/>
+    <menuitem id="real_estate_menu_action" action="real_estate_action" parent="real_estate_first_level_menu"/>
+</odoo>
+

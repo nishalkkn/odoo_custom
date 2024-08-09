@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="doctor_action" model="ir.actions.act_window">
+        <field name="name">Doctor</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+     <record id="doctor_customizations_form" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <field name="work_phone" position="after">
+                <field name="room_no"/>
+                <field name="resource_calendar_id"/>
+                <field name="birthday"/>
+                <field name="fee"/>
+                <field name="age"/>
+            </field>
+            <field name="department_id" position="after">
+                <field name="resource_calendar_id"/>
+                <field name="fee"/>
+            </field>
+            <field name="job_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="parent_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="coach_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="work_phone" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="mobile_phone" position="attributes">
+                <attribute name="string">Phone</attribute>
+            </field>
+            <field name="work_email" position="attributes">
+                <attribute name="string">Email</attribute>
+            </field>
+<!--            <xpath expr="//page[@name='personal_information']" position="replace"/>-->
+<!--            <xpath expr="//page[@name='hr_settings']" position="replace"/>-->
+<!--            <xpath expr="//page[@name='skills_resume']" position="replace"/>-->
+<!--            <xpath expr="//page[@name='public']" position="replace"/>-->
+
+        </field>
+    </record>
+
+        <menuitem id="doctor_menu_action" action="doctor_action" parent="hospital_management_menu"/>
+
+</odoo>

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<odoo>
+
+     <record id="patient_action" model="ir.actions.act_window">
+        <field name="name">Patient</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+    <record id="res_partner_customizations_form" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="function" position="before">
+                <field name="blood_group"/>
+                <field name="department_name"/>
+                <field name="date_of_birth"/>
+                <field name="age"/>
+            </field>
+            <field name="function" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="phone" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="email" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="website" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="title" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="category_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+<!--            <xpath expr="//page[@name='internal_notes']" position="replace"/>-->
+<!--            <xpath expr="//page[@name='sales_purchases']" position="replace"/>-->
+<!--            <xpath expr="//page[@name='contact_addresses']" position="replace"/>-->
+<!--            <xpath expr="//page[@name='accounting']" position="replace"/>-->
+
+
+        </field>
+    </record>
+
+    <menuitem id="patient_menu_action" action="patient_action" parent="hospital_management_menu"/>
+</odoo>

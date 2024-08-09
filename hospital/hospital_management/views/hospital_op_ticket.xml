@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<odoo>
+
+
+    <record id="op_ticket_action" model="ir.actions.act_window">
+        <field name="name">Op ticket</field>
+        <field name="res_model">hospital.op.ticket</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+
+    <record id="op_ticket_view_tree" model="ir.ui.view">
+        <field name="name">hospital.op.ticket.tree</field>
+        <field name="model">hospital.op.ticket</field>
+        <field name="arch" type="xml">
+            <tree string="Channel">
+                <field name="name"/>
+                <field name="token_no"/>
+                <field name="patient"/>
+                <field name="doctor"/>
+                <field name="age"/>
+                <field name="date"/>
+                <field name="department"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="op_ticket_view_form" model="ir.ui.view">
+        <field name="name">hospital.op.ticket.form</field>
+        <field name="model">hospital.op.ticket</field>
+        <field name="arch" type="xml">
+            <form string="Op Ticket">
+                <header>
+                    <button name="button_done" class="oe_highlight" invisible='state in "done"' string="Done"
+                            type="object" help="Move Appointment to Done state"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="patient"/>
+                            <field name="age"/>
+                        </group>
+                        <group>
+                            <field name="token_no"/>
+                            <field name="date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Details">
+                            <group>
+                                <field name="doctor"/>
+                                <field name="department"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="op_ticket_menu_action" action="op_ticket_action" parent="hospital_management_menu"/>
+</odoo>
