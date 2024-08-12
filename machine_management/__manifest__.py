@@ -9,14 +9,16 @@ This is a base module for managing machines
 
     'depends': [
         'base',
-        'mail'
+        'mail',
     ],
 
     'data': [
         'views/machine_management.xml',
+        'views/machine_transfer.xml',
 
         'security/ir.model.access.csv',
 
-        'data/my_module_sequence.xml',
+        'data/machine_sequence.xml',
+        'data/machine_type_data.xml'
     ]
 }

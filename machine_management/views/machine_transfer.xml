@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="machine_transfer_action" model="ir.actions.act_window">
+        <field name="name">Machine Transfer</field>
+        <field name="res_model">machine.transfer</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="machine_transfer_view_tree" model="ir.ui.view">
+        <field name="name">machine.transfer.tree</field>
+        <field name="model">machine.transfer</field>
+        <field name="arch" type="xml">
+            <tree string="Channel">
+                <field name="machine"/>
+                <field name="serial_no"/>
+                <field name="transfer_date"/>
+                <field name="transfer_type"/>
+                <field name="customer"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="machine_transfer_view_form" model="ir.ui.view">
+        <field name="name">machine.transfer.form</field>
+        <field name="model">machine.transfer</field>
+        <field name="arch" type="xml">
+            <form string="Machine Transfer">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="machine"/>
+                            <field name="serial_no"/>
+                            <field name="transfer_date"/>
+                        </group>
+                        <group>
+                            <field name="transfer_type"/>
+                            <field name="customer" invisible="transfer_type in 'remove'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Internal notes">
+                            <group>
+                                <field name="internal_notes" colspan="2" nolabel="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <menuitem id="machine_transfer" action="machine_transfer_action" parent="machine_management_menu_root"/>
+
+</odoo>
