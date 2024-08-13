@@ -23,7 +23,6 @@ class MachineManagement(models.Model):
     machine_type_id = fields.Many2one('machine.type', 'Machine Type')
     transfer_count = fields.Integer(compute='compute_count')
     machine_tag_id = fields.Many2many('machine.tag', string='Machine Tag')
-    color = fields.Integer('Color Index', default=0)
 
     #  smart button
     def get_transfers(self):
