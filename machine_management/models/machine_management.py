@@ -9,7 +9,7 @@ class MachineManagement(models.Model):
 
     name = fields.Char('Name', required=True)
     date_of_purchase = fields.Date('Date')
-    purchase_value = fields.Integer('Purchase value')
+    purchase_value = fields.Float('Purchase value')
     customer = fields.Char('Customer', readonly=True)
     description = fields.Text('Description')
     warranty = fields.Boolean('Warranty')
@@ -18,27 +18,29 @@ class MachineManagement(models.Model):
     serial_no = fields.Char('Serial no')
     sequence_no = fields.Char("Sequence no", default=lambda self: _('New'),
                               copy=False, readonly=True, tracking=True)
-    company = fields.Many2one('res.company', string='Company', required=True,
-                              default=lambda self: self.env.company)
-    machine_type = fields.Many2one('machine.type', 'Machine Type')
+    company_id = fields.Many2one('res.company', string='Company', required=True,
+                                 default=lambda self: self.env.company)
+    machine_type_id = fields.Many2one('machine.type', 'Machine Type')
     transfer_count = fields.Integer(compute='compute_count')
+    machine_tag_id = fields.Many2many('machine.tag', string='Machine Tag')
+    color = fields.Integer('Color Index', default=0)
 
-    # smart button
+    #  smart button
     def get_transfers(self):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Transfers',
+            'name': 'Transfer',
             'view_mode': 'tree',
             'res_model': 'machine.transfer',
-            'domain': [('machine', '=', self.id)],
-            'context': "{'create': False}",
+            'domain': [('machine_id', '=', self.id)],
+            'context': "{'create': False}"
         }
 
     # computing count of transfers
     def compute_count(self):
         for record in self:
-            record.transfer_count = self.env['machine.transfer'].search_count([('machine', '=', self.id)])
+            record.transfer_count = self.env['machine.transfer'].search_count([('machine_id', '=', self.id)])
 
     # state bar
     state = fields.Selection(selection=[
@@ -50,7 +52,6 @@ class MachineManagement(models.Model):
     # code for sequence number
     @api.model_create_multi
     def create(self, vals_list):
-        """ Create a sequence for the student model """
         for vals in vals_list:
             if vals.get('sequence_no', _('New')) == _('New'):
                 vals['sequence_no'] = self.env['ir.sequence'].next_by_code('machine.management')
@@ -72,6 +73,7 @@ class MachineManagement(models.Model):
             if count > 1:
                 raise ValidationError(_("The Serial number should be unique"))
 
+    # button to navigate to machine.transfer
     def transfer_machine_button(self):
         return {
             # 'name': 'machine_management',
@@ -80,6 +82,6 @@ class MachineManagement(models.Model):
             # 'view_type': 'tree',
             'view_mode': 'form',
             # 'view_id': False,
-            # 'context': {},
+            'context': {'default_machine_id': self.id},
             # 'target': 'current'
         }

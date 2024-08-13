@@ -12,7 +12,7 @@
         <field name="model">machine.transfer</field>
         <field name="arch" type="xml">
             <tree string="Channel">
-                <field name="machine"/>
+                <field name="machine_id"/>
                 <field name="serial_no"/>
                 <field name="transfer_date"/>
                 <field name="transfer_type"/>
@@ -21,22 +21,27 @@
         </field>
     </record>
 
-
     <record id="machine_transfer_view_form" model="ir.ui.view">
         <field name="name">machine.transfer.form</field>
         <field name="model">machine.transfer</field>
         <field name="arch" type="xml">
             <form string="Machine Transfer">
+                <header>
+                    <button name="add_transfer" class="btn btn-secondary" string="Add Transfer" type="object"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
-                            <field name="machine"/>
-                            <field name="serial_no"/>
-                            <field name="transfer_date"/>
+                            <field name="machine_id" help="Which is the machine should transfer"/>
+                            <field name="serial_no" help="Unique serial number of the machine"/>
+                            <field name="transfer_date" help="Transferring date"/>
                         </group>
                         <group>
-                            <field name="transfer_type"/>
-                            <field name="customer" invisible="transfer_type in 'remove'"/>
+                            <field name="transfer_type" help="Type of transfer"/>
+                            <field name="customer" invisible="transfer_type in 'remove'"
+                                   help="Customer who bought the machine">
+                                <attribute name="required">True</attribute>
+                            </field>
                         </group>
                     </group>
                     <notebook>
@@ -50,7 +55,6 @@
             </form>
         </field>
     </record>
-
 
     <menuitem id="machine_transfer" action="machine_transfer_action" parent="machine_management_menu_root"/>
 
