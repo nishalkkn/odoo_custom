@@ -39,9 +39,7 @@
                         <group>
                             <field name="transfer_type" help="Type of transfer"/>
                             <field name="customer" invisible="transfer_type in 'remove'"
-                                   help="Customer who bought the machine">
-                                <attribute name="required">True</attribute>
-                            </field>
+                                   help="Customer who bought the machine" required="1"/>
                         </group>
                     </group>
                     <notebook>

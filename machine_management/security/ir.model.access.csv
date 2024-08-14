@@ -3,5 +3,7 @@ access_machine_management,access.machine.management,model_machine_management,bas
 access_machine_type,access.machine.type,model_machine_type,base.group_user,1,1,1,1
 access_machine_transfer,access.machine.transfer,model_machine_transfer,base.group_user,1,1,1,1
 access_machine_tag,access.machine.tag,model_machine_tag,base.group_user,1,1,1,1
+access_machine_part,access.machine.part,model_machine_part,base.group_user,1,1,1,1
+
 
 

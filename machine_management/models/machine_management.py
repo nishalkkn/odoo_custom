@@ -15,6 +15,11 @@ class MachineManagement(models.Model):
     warranty = fields.Boolean('Warranty')
     machine_instructions = fields.Html('Machine instructions')
     image = fields.Image('image', )
+    state = fields.Selection(selection=[
+        ('active', 'Active'),
+        ('in_service', 'In service'),
+    ], string='Status', required=True, copy=False,
+        tracking=True, default='active')
     serial_no = fields.Char('Serial no')
     sequence_no = fields.Char("Sequence no", default=lambda self: _('New'),
                               copy=False, readonly=True, tracking=True)
@@ -23,6 +28,7 @@ class MachineManagement(models.Model):
     machine_type_id = fields.Many2one('machine.type', 'Machine Type')
     transfer_count = fields.Integer(compute='compute_count')
     machine_tag_id = fields.Many2many('machine.tag', string='Machine Tag')
+    machine_parts = fields.One2many('machine.part', 'machine_id', 'Machine Parts')
 
     #  smart button
     def get_transfers(self):
@@ -40,13 +46,6 @@ class MachineManagement(models.Model):
     def compute_count(self):
         for record in self:
             record.transfer_count = self.env['machine.transfer'].search_count([('machine_id', '=', self.id)])
-
-    # state bar
-    state = fields.Selection(selection=[
-        ('active', 'Active'),
-        ('in_service', 'In service'),
-    ], string='Status', required=True, copy=False,
-        tracking=True, default='active')
 
     # code for sequence number
     @api.model_create_multi

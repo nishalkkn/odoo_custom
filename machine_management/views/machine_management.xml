@@ -16,6 +16,7 @@
                 <field name="purchase_value"/>
                 <field name="customer"/>
                 <field name="warranty"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -61,11 +62,11 @@
                         </group>
                     </group>
                     <notebook>
-<!--                        <page string="Machine Parts">-->
-<!--                            <group>-->
-<!--                                <field name="machine_parts"/>-->
-<!--                            </group>-->
-<!--                        </page>-->
+                        <page string="Machine Parts">
+                            <group>
+                                <field name="machine_parts" nolabel="1" colspan="2"/>
+                            </group>
+                        </page>
                         <page string="Description">
                             <group>
                                 <field colspan="2" name="description" nolabel="1"/>

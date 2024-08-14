@@ -10,11 +10,14 @@ This is a base module for managing machines and machine transfers
     'depends': [
         'base',
         'mail',
+        'product',
+        'contacts',
     ],
 
     'data': [
         'views/machine_management.xml',
         'views/machine_transfer.xml',
+        'views/machine_part_view.xml',
 
         'security/ir.model.access.csv',
 
