@@ -6,4 +6,5 @@ class MachineTag(models.Model):
     _description = "Machine Tags"
 
     name = fields.Char('Tag')
+    color=fields.Integer()
 

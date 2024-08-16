@@ -9,12 +9,10 @@ class MachineTransfer(models.Model):
     machine_id = fields.Many2one('machine.management', 'Machine', required=True)
     serial_no = fields.Char('Serial no')
     transfer_date = fields.Date('Transfer date')
-    transfer_type = fields.Selection([('install', 'Install'), ('remove', 'Remove')], required=True, default='remove')
+    transfer_type = fields.Selection([('install', 'Install'), ('remove', 'Remove')], required=True)
     customer = fields.Many2one('res.partner', 'Customer')
     internal_notes = fields.Html('Internal notes')
-
-
-
+    alternate_ids = fields.Many2many('machine.management', compute='compute_alternate_ids')
 
     # auto getting serial_no
     @api.onchange('machine_id')
@@ -30,11 +28,13 @@ class MachineTransfer(models.Model):
             'state': 'in_service',
         })
 
-    @api.onchange('transfer_type')
-    def onchange_transfer_type(self):
-        if self.transfer_type == 'remove':
-            print("remove !!!!!!!!!!!!!!!!!")
-            domain = [('machine_id', '=', self.machine_id.id)]
-        else:
-            domain = []
-        return {'domain': {'machine_id': domain}}
+    # dynamic domain
+    @api.depends('transfer_type')
+    def compute_alternate_ids(self):
+        for rec in self:
+            if rec.transfer_type == 'remove':
+                rec.alternate_ids = rec.env['machine.management'].search([('state', '=', 'in_service')])
+            elif rec.transfer_type == 'install':
+                rec.alternate_ids = rec.env['machine.management'].search([('state', '=', 'active')])
+            else:
+                rec.alternate_ids = rec.env['machine.management'].search([])

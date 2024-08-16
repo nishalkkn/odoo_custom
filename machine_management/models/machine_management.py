@@ -21,7 +21,7 @@ class MachineManagement(models.Model):
     ], string='Status', required=True, copy=False,
         tracking=True, default='active')
     serial_no = fields.Char('Serial no')
-    sequence_no = fields.Char("Sequence no", default=lambda self: _('New'),
+    sequence_no = fields.Char("Sequence no", default=lambda self:_("New"),
                               copy=False, readonly=True, tracking=True)
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.company)
@@ -30,13 +30,14 @@ class MachineManagement(models.Model):
     machine_tag_id = fields.Many2many('machine.tag', string='Machine Tag')
     machine_parts = fields.One2many('machine.part', 'machine_id', 'Machine Parts')
 
+
     #  smart button
     def get_transfers(self):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
             'name': 'Transfer',
-            'view_mode': 'tree',
+            'view_mode': 'tree,form',
             'res_model': 'machine.transfer',
             'domain': [('machine_id', '=', self.id)],
             'context': "{'create': False}"

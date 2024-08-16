@@ -59,7 +59,7 @@
     </record>
 
     <record id="view_real_estate_properties_search" model="ir.ui.view">
-        <field name="name">real.estate.search</field>
+        <field name="name">real.estate.search</field>+
         <field name="model">real.estate</field>
         <field name="arch" type="xml">
             <search string="Estate">

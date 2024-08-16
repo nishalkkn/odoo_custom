@@ -1,7 +1,7 @@
 {
     'name': "Machine Management",
     'application': True,
-    'version': '17.0.1.0.2',
+    'version': '17.0.1.0.3',
     'category' : 'Sales/Sales',
     'description' : """
 This is a base module for managing machines and machine transfers
