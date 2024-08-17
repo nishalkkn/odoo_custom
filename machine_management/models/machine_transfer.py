@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 
 class MachineTransfer(models.Model):
@@ -31,10 +32,9 @@ class MachineTransfer(models.Model):
     # dynamic domain
     @api.depends('transfer_type')
     def compute_alternate_ids(self):
-        for rec in self:
-            if rec.transfer_type == 'remove':
-                rec.alternate_ids = rec.env['machine.management'].search([('state', '=', 'in_service')])
-            elif rec.transfer_type == 'install':
-                rec.alternate_ids = rec.env['machine.management'].search([('state', '=', 'active')])
-            else:
-                rec.alternate_ids = rec.env['machine.management'].search([])
+        if self.transfer_type == 'remove':
+            self.alternate_ids = self.env['machine.management'].search([('state', '=', 'in_service')])
+        elif self.transfer_type == 'install':
+            self.alternate_ids = self.env['machine.management'].search([('state', '=', 'active')])
+        else:
+            self.alternate_ids = self.env['machine.management'].search([])

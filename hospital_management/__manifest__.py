@@ -14,4 +14,6 @@
     ],
 
     'depends' : ['contacts','hr'],
+    'license': 'LGPL-3',
+
 }

@@ -21,7 +21,7 @@ class MachineManagement(models.Model):
     ], string='Status', required=True, copy=False,
         tracking=True, default='active')
     serial_no = fields.Char('Serial no')
-    sequence_no = fields.Char("Sequence no", default=lambda self:_("New"),
+    sequence_no = fields.Char("Sequence no", default=lambda self: _("New"),
                               copy=False, readonly=True, tracking=True)
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.company)
@@ -29,7 +29,6 @@ class MachineManagement(models.Model):
     transfer_count = fields.Integer(compute='compute_count')
     machine_tag_id = fields.Many2many('machine.tag', string='Machine Tag')
     machine_parts = fields.One2many('machine.part', 'machine_id', 'Machine Parts')
-
 
     #  smart button
     def get_transfers(self):
@@ -75,12 +74,11 @@ class MachineManagement(models.Model):
     # button to navigate to machine.transfer
     def transfer_machine_button(self):
         return {
-            # 'name': 'machine_management',
+            'name': 'Machine Transfer',
             'res_model': 'machine.transfer',
             'type': 'ir.actions.act_window',
-            # 'view_type': 'tree',
+            'view_type': 'tree,form',
             'view_mode': 'form',
-            # 'view_id': False,
             'context': {'default_machine_id': self.id},
-            # 'target': 'current'
+            'target': 'self'
         }
