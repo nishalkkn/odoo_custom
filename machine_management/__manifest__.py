@@ -1,7 +1,7 @@
 {
     'name': "Machine Management",
     'application': True,
-    'version': '17.0.1.0.3',
+    'version': '17.0.1.0.4',
     'category' : 'Sales/Sales',
     'description' : """
 This is a base module for managing machines and machine transfers
@@ -12,12 +12,16 @@ This is a base module for managing machines and machine transfers
         'mail',
         'product',
         'contacts',
+        'hr',
+        'account',
     ],
 
     'data': [
         'views/machine_management.xml',
         'views/machine_transfer.xml',
         'views/machine_part_view.xml',
+        'views/res_partner_view.xml',
+        'views/machine_service_view.xml',
 
         'security/ir.model.access.csv',
 

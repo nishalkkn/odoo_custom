@@ -11,7 +11,7 @@ class MachineTransfer(models.Model):
     serial_no = fields.Char('Serial no')
     transfer_date = fields.Date('Transfer date')
     transfer_type = fields.Selection([('install', 'Install'), ('remove', 'Remove')], required=True)
-    customer = fields.Many2one('res.partner', 'Customer')
+    customer_id = fields.Many2one('res.partner', 'Customer')
     internal_notes = fields.Html('Internal notes')
     alternate_ids = fields.Many2many('machine.management', compute='compute_alternate_ids')
 
@@ -25,7 +25,7 @@ class MachineTransfer(models.Model):
     # updating values in machine.management
     def add_transfer(self):
         self.machine_id.write({
-            'customer': self.customer.name,
+            'customer_id': self.customer_id.id,
             'state': 'in_service',
         })
 

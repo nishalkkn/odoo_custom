@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="owl_basic.input_box">
+        <div class="InputDiv">
+            <input id="input_area" type="text"/>
+        <button name="button">Click here</button>
+        </div>
+    </t>
+</templates>

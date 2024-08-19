@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="machine_service_action" model="ir.actions.act_window">
+        <field name="name">Machine Service</field>
+        <field name="res_model">machine.service</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="machine_service_view_tree" model="ir.ui.view">
+        <field name="name">machine.service.tree</field>
+        <field name="model">machine.service</field>
+        <field name="arch" type="xml">
+            <tree string="Channel">
+                <field name="machine_id"/>
+                <field name="date_of_service"/>
+                <field name="customer_id"/>
+                <field name="company_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="machine_service_view_form" model="ir.ui.view">
+        <field name="name">machine.service.form</field>
+        <field name="model">machine.service</field>
+        <field name="arch" type="xml">
+            <form string="Machine Service">
+                <header>
+                    <button name="start_case" string="Start case" type="object" invisible="state in 'started'"/>
+                    <button name="close_case" string="Close case" type="object" invisible="state in 'done'"/>
+                    <button name="create_invoice" string="Create invoice" type="object" />
+                    <field name="state" widget="statusbar" statusbar_visible="open,started,done,cancel"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="machine_id"/>
+                            <field name="date_of_service"/>
+                            <field name="customer_id"/>
+                        </group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="tech_person_id" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Parts Consumed">
+                            <field name="parts_id" domain="[('id', 'in', alternate_parts)]"/>
+                            <field name="alternate_parts" invisible="1"/>
+                        </page>
+                        <page string="Description">
+                            <field name="description" nolabel="1" colspan="2"/>
+                        </page>
+                        <page string="Internal Notes">
+                            <field name="internal_note" nolabel="1" colspan="2"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="machine_service" action="machine_service_action" parent="machine_management_menu_root"/>
+
+</odoo>

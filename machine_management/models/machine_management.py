@@ -1,5 +1,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
+from datetime import datetime
+
 
 
 class MachineManagement(models.Model):
@@ -8,9 +10,8 @@ class MachineManagement(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char('Name', required=True)
-    date_of_purchase = fields.Date('Date')
     purchase_value = fields.Float('Purchase value')
-    customer = fields.Char('Customer', readonly=True)
+    customer_id = fields.Many2one('res.partner','Customer', readonly=True)
     description = fields.Text('Description')
     warranty = fields.Boolean('Warranty')
     machine_instructions = fields.Html('Machine instructions')
@@ -26,11 +27,24 @@ class MachineManagement(models.Model):
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.company)
     machine_type_id = fields.Many2one('machine.type', 'Machine Type')
-    transfer_count = fields.Integer(compute='compute_count')
+    transfer_count = fields.Integer(compute='compute_count_of_transfer')
+    service_count = fields.Integer(compute='compute_count_of_service')
     machine_tag_id = fields.Many2many('machine.tag', string='Machine Tag')
     machine_parts = fields.One2many('machine.part', 'machine_id', 'Machine Parts')
+    date_of_purchase = fields.Date('Purchase date')
+    today_date = fields.Date(default=fields.date.today())
+    total_days = fields.Integer('Age (Days)')
 
-    #  smart button
+    # Finding the age of the machine
+    @api.onchange('date_of_purchase')
+    def calculate_date(self):
+        if self.date_of_purchase and self.today_date:
+            d1 = datetime.strptime(str(self.date_of_purchase), '%Y-%m-%d')
+            d2 = datetime.strptime(str(self.today_date), '%Y-%m-%d')
+            d3 = d2 - d1
+            self.total_days = d3.days
+
+    #  smart button for transfers
     def get_transfers(self):
         self.ensure_one()
         return {
@@ -43,9 +57,9 @@ class MachineManagement(models.Model):
         }
 
     # computing count of transfers
-    def compute_count(self):
-        for record in self:
-            record.transfer_count = self.env['machine.transfer'].search_count([('machine_id', '=', self.id)])
+    def compute_count_of_transfer(self):
+        for rec in self:
+            rec.transfer_count = self.env['machine.transfer'].search_count([('machine_id', '=', self.id)])
 
     # code for sequence number
     @api.model_create_multi
@@ -67,7 +81,7 @@ class MachineManagement(models.Model):
     def _check_registration_no(self):
         for rec in self:
             domain = [('serial_no', '=', rec.serial_no)]
-            count = self.sudo().search_count(domain)
+            count = self.search_count(domain)
             if count > 1:
                 raise ValidationError(_("The Serial number should be unique"))
 
@@ -80,5 +94,34 @@ class MachineManagement(models.Model):
             'view_type': 'tree,form',
             'view_mode': 'form',
             'context': {'default_machine_id': self.id},
-            'target': 'self'
+            'target': 'current'
         }
+
+    # button to navigate to machine.service
+    def create_service_button(self):
+        return {
+            'name': 'Machine Service',
+            'res_model': 'machine.service',
+            'type': 'ir.actions.act_window',
+            'view_type': 'tree,form',
+            'view_mode': 'form',
+            'context': {'default_machine_id': self.id},
+            'target': 'current'
+        }
+
+    # smart button for services
+    def get_service(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Services',
+            'view_mode': 'tree,form',
+            'res_model': 'machine.service',
+            'domain': [('machine_id','=',self.id)],
+            'context':"{'create': False}"
+        }
+
+    # computing count of services
+    def compute_count_of_service(self):
+        for rec in self:
+            rec.service_count = self.env['machine.service'].search_count([('machine_id','=',self.id)])
