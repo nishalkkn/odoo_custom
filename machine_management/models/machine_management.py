@@ -34,6 +34,8 @@ class MachineManagement(models.Model):
     date_of_purchase = fields.Date('Purchase date')
     today_date = fields.Date(default=fields.date.today())
     total_days = fields.Integer('Age (Days)')
+    active = fields.Boolean(default=True, related="customer_id.active")
+
 
     # Finding the age of the machine
     @api.onchange('date_of_purchase')

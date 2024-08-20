@@ -11,3 +11,5 @@ class ResPartner(models.Model):
     @api.depends('name')
     def employee_count(self):
         self.alternative_cust = self.env['machine.management'].search([('customer_id', '=', self.name)])
+
+

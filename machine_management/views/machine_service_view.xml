@@ -28,19 +28,19 @@
                 <header>
                     <button name="start_case" string="Start case" type="object" invisible="state in 'started'"/>
                     <button name="close_case" string="Close case" type="object" invisible="state in 'done'"/>
-                    <button name="create_invoice" string="Create invoice" type="object" />
+                    <button name="create_invoice" string="Create invoice" class="oe_highlight" type="object" invisible="state not in 'done'"/>
                     <field name="state" widget="statusbar" statusbar_visible="open,started,done,cancel"/>
                 </header>
                 <sheet>
                     <group>
                         <group>
-                            <field name="machine_id"/>
-                            <field name="date_of_service"/>
-                            <field name="customer_id"/>
+                            <field name="machine_id" help="Name of the machine"/>
+                            <field name="date_of_service" help="Date of the service"/>
+                            <field name="customer_id" halp="Name of the customer"/>
                         </group>
                         <group>
-                            <field name="company_id"/>
-                            <field name="tech_person_id" widget="many2many_tags"/>
+                            <field name="company_id" help="Name of the company"/>
+                            <field name="tech_person_id" widget="many2many_tags" halp="Assigned person for the service"/>
                         </group>
                     </group>
                     <notebook>

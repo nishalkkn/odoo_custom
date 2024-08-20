@@ -15,6 +15,8 @@ class MachineTransfer(models.Model):
     internal_notes = fields.Html('Internal notes')
     alternate_ids = fields.Many2many('machine.management', compute='compute_alternate_ids')
 
+
+
     # auto getting serial_no
     @api.onchange('machine_id')
     def _onchange_machine_id(self):
