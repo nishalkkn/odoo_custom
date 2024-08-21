@@ -26,27 +26,28 @@
         <field name="arch" type="xml">
             <form string="Machine Service">
                 <header>
-                    <button name="start_case" string="Start case" type="object" invisible="state in 'started'"/>
-                    <button name="close_case" string="Close case" type="object" invisible="state in 'done'"/>
-                    <button name="create_invoice" string="Create invoice" class="oe_highlight" type="object" invisible="state not in 'done'"/>
+                    <button name="action_start_case" string="Start case" type="object" invisible="state in 'started'"/>
+                    <button name="action_close_case" string="Close case" type="object" invisible="state in 'done'"/>
+                    <button name="action_create_invoice" string="Create invoice" class="oe_highlight" type="object"
+                            invisible="state not in 'done'"/>
                     <field name="state" widget="statusbar" statusbar_visible="open,started,done,cancel"/>
                 </header>
                 <sheet>
                     <group>
                         <group>
-                            <field name="machine_id" help="Name of the machine"/>
-                            <field name="date_of_service" help="Date of the service"/>
-                            <field name="customer_id" halp="Name of the customer"/>
+                            <field name="machine_id"/>
+                            <field name="date_of_service"/>
+                            <field name="customer_id"/>
                         </group>
                         <group>
-                            <field name="company_id" help="Name of the company"/>
-                            <field name="tech_person_id" widget="many2many_tags" halp="Assigned person for the service"/>
+                            <field name="company_id"/>
+                            <field name="tech_person_ids" widget="many2many_tags"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Parts Consumed">
-                            <field name="parts_id" domain="[('id', 'in', alternate_parts)]"/>
-                            <field name="alternate_parts" invisible="1"/>
+                            <field name="parts_ids" domain="[('id', 'in', alternate_part_ids)]"/>
+                            <field name="alternate_part_ids" invisible="1"/>
                         </page>
                         <page string="Description">
                             <field name="description" nolabel="1" colspan="2"/>

@@ -17,6 +17,7 @@
                 <field name="transfer_date"/>
                 <field name="transfer_type"/>
                 <field name="customer_id"/>
+                <field name="alternate_ids"/>
             </tree>
         </field>
     </record>
@@ -27,20 +28,19 @@
         <field name="arch" type="xml">
             <form string="Machine Transfer">
                 <header>
-                    <button name="add_transfer" class="btn btn-secondary" string="Add Transfer" type="object"/>
+                    <button name="action_add_transfer" class="btn btn-secondary" string="Add Transfer" type="object"/>
                 </header>
                 <sheet>
                     <group>
                         <group>
                             <field name="machine_id" domain="[('id', 'in', alternate_ids)]"/>
                             <field name="alternate_ids" invisible="1"/>
-                            <field name="serial_no" help="Unique serial number of the machine"/>
-                            <field name="transfer_date" help="Transferring date"/>
+                            <field name="serial_no"/>
+                            <field name="transfer_date"/>
                         </group>
                         <group>
-                            <field name="transfer_type" help="Type of transfer"/>
-                            <field name="customer_id" invisible="transfer_type in 'remove'"
-                                   help="Customer who bought the machine" required="1"/>
+                            <field name="transfer_type"/>
+                            <field name="customer_id" invisible="transfer_type in 'remove'" required="1"/>
                         </group>
                     </group>
                     <notebook>

@@ -27,19 +27,19 @@
         <field name="arch" type="xml">
             <form string="Machine Management">
                 <header>
-                    <button name="transfer_machine_button" class="btn btn-secondary" string="Create Transfer"
+                    <button name="action_transfer_machine_button" class="btn btn-secondary" string="Create Transfer"
                             type="object"/>
-                    <button name="create_service_button" class="btn btn-secondary" string="Create Service"
+                    <button name="action_create_service_button" class="btn btn-secondary" string="Create Service"
                             type="object"/>
                     <field name="state" widget="statusbar" statusbar_visible="active,in_service"
                            options="{'clickable':'1'}"/>
                 </header>
                 <sheet>
                     <div name="button_box" position="inside">
-                        <button class="oe_stat_button" type="object" name="get_transfers" icon="fa-bars">
+                        <button class="oe_stat_button" type="object" name="action_get_transfers" icon="fa-bars">
                             <field string="Transfers" name="transfer_count" widget="statinfo"/>
                         </button>
-                         <button class="oe_stat_button" type="object" name="get_service" icon="fa-bars">
+                        <button class="oe_stat_button" type="object" name="action_get_service" icon="fa-bars">
                             <field string="Services" name="service_count" widget="statinfo"/>
                         </button>
                     </div>
@@ -54,24 +54,24 @@
                     </div>
                     <group>
                         <group>
-                            <field name="serial_no" help="Unique serial number for machine"/>
-                            <field name="date_of_purchase" help="Purchase date of machine"/>
+                            <field name="serial_no"/>
+                            <field name="date_of_purchase"/>
                         </group>
                         <group>
-                            <field name="purchase_value" help="The value of machine when purchased"/>
-                            <field name="machine_type_id" help="Which is the type of the machine"/>
-                            <field name="warranty" help="Is any warranty for machine"/>
-                            <field name="customer_id" help="Customer who bought the machine"/>
-                            <field name="company_id" help="Company name"/>
-                            <field name="machine_tag_id" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <field name="purchase_value"/>
+                            <field name="machine_type_id"/>
+                            <field name="warranty"/>
+                            <field name="customer_id"/>
+                            <field name="company_id"/>
+                            <field name="machine_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                             <field name="today_date" invisible="1"/>
-                            <field name="total_days" help="Age of the machine"/>
+                            <field name="total_days"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Machine Parts">
                             <group>
-                                <field name="machine_parts" nolabel="1" colspan="2"/>
+                                <field name="machine_part_id" nolabel="1" colspan="2"/>
                             </group>
                         </page>
                         <page string="Description">
@@ -100,6 +100,7 @@
         <field name="model">machine.management</field>
         <field name="arch" type="xml">
             <search string="Search">
+                <field name="name"/>
                 <filter string="Active" name="Active" domain="[('state','=','active')]"/>
                 <filter string="In Service" name="In Service" domain="[('state','=','in_service')]"/>
                 <filter string="Warrantied" name="Warrantied" domain="[('warranty','=',True)]"/>

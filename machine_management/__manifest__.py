@@ -1,7 +1,7 @@
 {
     'name': "Machine Management",
     'application': True,
-    'version': '17.0.4.0.0',
+    'version': '17.0.1.0.4',
     'category' : 'Sales/Sales',
     'description' : """
 This is a base module for managing machines and machine transfers
@@ -26,7 +26,8 @@ This is a base module for managing machines and machine transfers
         'security/ir.model.access.csv',
 
         'data/machine_sequence.xml',
-        'data/machine_type_data.xml'
+        'data/machine_type_data.xml',
+        'data/product_product_data.xml',
     ],
 
     'license': 'LGPL-3',
