@@ -124,7 +124,7 @@ class MachineManagement(models.Model):
         self.service_count = self.env['machine.service'].search_count([('machine_id', '=', self.id)])
 
     # # on delete function for machine
-    # @api.ondelete(at_uninstall=False)
-    # def ondelete_machine(self):
-    #     if self.transfer_count > 0 or self.service_count > 0:
-    #         raise ValidationError("You can't delete a machine when there is a transfer or  a service ")
+    @api.ondelete(at_uninstall=False)
+    def ondelete_machine(self):
+        if self.transfer_count > 0 or self.service_count > 0:
+            raise ValidationError("You can't delete a machine when there is a transfer or  a service ")

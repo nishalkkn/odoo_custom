@@ -102,6 +102,7 @@
             <search string="Search">
                 <field name="name"/>
                 <filter string="Active" name="Active" domain="[('state','=','active')]"/>
+                <filter string="Archived" name="Archived" domain="[('active','=',False)]"/>
                 <filter string="In Service" name="In Service" domain="[('state','=','in_service')]"/>
                 <filter string="Warrantied" name="Warrantied" domain="[('warranty','=',True)]"/>
                 <group string="Group by">

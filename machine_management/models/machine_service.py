@@ -41,6 +41,23 @@ class MachineService(models.Model):
             'state': 'done'
         })
 
+    # smart button for invoice
+    def action_get_invoices(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Invoices',
+            'view_mode': 'tree,form',
+            'res_model': 'account.move',
+            'domain': [('id', '=', self.id)],
+            'context': "{'create': False}"
+        }
+
+    # computing count of invoices
+    def compute_count_of_transfer(self):
+        self.transfer_count = self.env['machine.transfer'].search_count([('machine_id', '=', self.id)])
+
+
     # onchange machin_id
     @api.onchange('machine_id')
     def onchange_machin_id(self):
