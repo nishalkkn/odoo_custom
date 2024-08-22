@@ -29,10 +29,15 @@
                     <button name="action_start_case" string="Start case" type="object" invisible="state in 'started'"/>
                     <button name="action_close_case" string="Close case" type="object" invisible="state in 'done'"/>
                     <button name="action_create_invoice" string="Create invoice" class="oe_highlight" type="object"
-                            invisible="state not in 'done'"/>
+                            invisible="state not in  'done'"/>
                     <field name="state" widget="statusbar" statusbar_visible="open,started,done,cancel"/>
                 </header>
                 <sheet>
+                    <div name="button_box" position="inside">
+                        <button class="oe_stat_button" type="object" name="action_get_invoices" icon="fa-bars">
+                            <field string="Invoices" name="invoice_count" widget="statinfo"/>
+                        </button>
+                    </div>
                     <group>
                         <group>
                             <field name="machine_id"/>

@@ -23,6 +23,8 @@ class MachineService(models.Model):
                                  help="Name of the company")
     parts_ids = fields.Many2many('machine.part', 'machine_id')
     alternate_part_ids = fields.Many2many('machine.part', compute='compute_parts_consumed')
+    invoice_id = fields.One2many('account.move', 'service_id', 'Invoice id')
+    invoice_count = fields.Integer('Invoice count', compute='compute_count_of_transfer')
 
     # making parts_consumed wrt machine_id
     @api.depends('machine_id')
@@ -49,13 +51,13 @@ class MachineService(models.Model):
             'name': 'Invoices',
             'view_mode': 'tree,form',
             'res_model': 'account.move',
-            'domain': [('id', '=', self.id)],
+            'domain': [('service_id', '=', self.id)],
             'context': "{'create': False}"
         }
 
     # computing count of invoices
     def compute_count_of_transfer(self):
-        self.transfer_count = self.env['machine.transfer'].search_count([('machine_id', '=', self.id)])
+        self.invoice_count = self.env['account.move'].search_count([('service_id', '=', self.id)])
 
 
     # onchange machin_id
@@ -84,9 +86,11 @@ class MachineService(models.Model):
                                'quantity': 1,
                            })
                        ]
+
         if existing_invoice:
             existing_invoice.write({
-                'invoice_line_ids': invoice_line
+                'invoice_line_ids': invoice_line,
+                'service_id': self.id,
             })
 
             return {
@@ -96,13 +100,14 @@ class MachineService(models.Model):
                 'view_type': 'tree,form',
                 'view_mode': 'form',
                 'target': 'current',
-                'res_id': existing_invoice.id
+                'res_id': existing_invoice.id,
             }
 
         invoice = self.env['account.move'].create({
             'move_type': 'out_invoice',
             'partner_id': self.customer_id.id,
             'invoice_line_ids': invoice_line,
+            'service_id':self.id,
         })
 
         return {
