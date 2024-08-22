@@ -16,6 +16,7 @@
                 <field name="date_of_service"/>
                 <field name="customer_id"/>
                 <field name="company_id"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -29,8 +30,9 @@
                     <button name="action_start_case" string="Start case" type="object" invisible="state in 'started'"/>
                     <button name="action_close_case" string="Close case" type="object" invisible="state in 'done'"/>
                     <button name="action_create_invoice" string="Create invoice" class="oe_highlight" type="object"
-                            invisible="state not in  'done'"/>
+                            invisible="invoice_count != 0 or state not in  'done'"/>
                     <field name="state" widget="statusbar" statusbar_visible="open,started,done,cancel"/>
+<!--                    <button name="action_send_mail" type="object" string="Send Email" class="oe_highlight"/>-->
                 </header>
                 <sheet>
                     <div name="button_box" position="inside">
@@ -47,6 +49,8 @@
                         <group>
                             <field name="company_id"/>
                             <field name="tech_person_ids" widget="many2many_tags"/>
+                            <field name="service_frequency"/>
+                            <field name="last_service_date"/>
                         </group>
                     </group>
                     <notebook>

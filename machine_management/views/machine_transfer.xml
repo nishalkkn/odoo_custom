@@ -17,7 +17,6 @@
                 <field name="transfer_date"/>
                 <field name="transfer_type"/>
                 <field name="customer_id"/>
-                <field name="alternate_ids"/>
             </tree>
         </field>
     </record>
@@ -52,6 +51,17 @@
                     </notebook>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <record id="machine_transfer_view_search" model="ir.ui.view">
+        <field name="name">machine.transfer.search</field>
+        <field name="model">machine.transfer</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="machine_id"/>
+                <filter string="Archived" name="Archived" domain="[('active','=',False)]"/>
+            </search>
         </field>
     </record>
 

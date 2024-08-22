@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from odoo import models, fields, api
 
 
@@ -15,24 +16,25 @@ class MachineTransfer(models.Model):
     customer_id = fields.Many2one('res.partner', 'Customer', help="Customer who bought the machine")
     internal_notes = fields.Html('Internal notes')
     alternate_ids = fields.Many2many('machine.management', compute='compute_alternate_ids')
+    active = fields.Boolean(default=True)
 
-    # auto getting serial_no
     @api.onchange('machine_id')
     def _onchange_machine_id(self):
+        """auto getting serial_no"""
         self.write({
             'serial_no': self.machine_id.serial_no,
         })
 
-    # updating values in machine.management
     def action_add_transfer(self):
+        """updating values in machine.management"""
         self.machine_id.write({
             'customer_id': self.customer_id.id,
             'state': 'in_service',
         })
 
-    # dynamic domain
     @api.depends('transfer_type')
     def compute_alternate_ids(self):
+        """dynamic domain for machine_id wrt transfer_type"""
         for rec in self:
             if rec.transfer_type == 'remove':
                 rec.alternate_ids = rec.env['machine.management'].search([('state', '=', 'in_service')])

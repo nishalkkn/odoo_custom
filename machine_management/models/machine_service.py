@@ -18,33 +18,40 @@ class MachineService(models.Model):
         ('started', 'Started'),
         ('done', 'Done'),
         ('cancel', 'Cancel'),
-    ], string='State', required=True, copy=False, tracking=True, default='open')
+    ], string='State', required=True, copy=False, tracking=True, default='open',store=True)
     company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self: self.env.company,
                                  help="Name of the company")
     parts_ids = fields.Many2many('machine.part', 'machine_id')
     alternate_part_ids = fields.Many2many('machine.part', compute='compute_parts_consumed')
     invoice_id = fields.One2many('account.move', 'service_id', 'Invoice id')
     invoice_count = fields.Integer('Invoice count', compute='compute_count_of_transfer')
+    service_frequency = fields.Selection([('weekly', 'Weekly'), ('monthly', 'Monthly'), ('yearly', 'Yearly')],
+                                         'Service frequency', required=True, help="Service frequency")
+    last_service_date = fields.Date('Last service date', help="Date of last service")
 
-    # making parts_consumed wrt machine_id
     @api.depends('machine_id')
     def compute_parts_consumed(self):
+        """filter parts_consumed wrt machine_id"""
         self.alternate_part_ids = self.env['machine.part'].search([('machine_id', '=', self.machine_id.id)])
 
-    # button to start the case
     def action_start_case(self):
+        """button to change state to started """
         self.write({
             'state': 'started'
         })
 
-    # button to close the case
     def action_close_case(self):
+        """button to change state to done and send email to customer when state become done """
+        template = self.env.ref('machine_management.email_template_name')
+        template.send_mail(self.id, force_send=True)
+
         self.write({
             'state': 'done'
         })
 
-    # smart button for invoice
+
     def action_get_invoices(self):
+        """smart button for invoice"""
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
@@ -55,20 +62,19 @@ class MachineService(models.Model):
             'context': "{'create': False}"
         }
 
-    # computing count of invoices
     def compute_count_of_transfer(self):
+        """computing count of invoices"""
         self.invoice_count = self.env['account.move'].search_count([('service_id', '=', self.id)])
 
-
-    # onchange machin_id
     @api.onchange('machine_id')
     def onchange_machin_id(self):
+        """onchange machin_id"""
         self.write({
             'customer_id': self.machine_id.customer_id
         })
 
-    # creating invoice
     def action_create_invoice(self):
+        """creating invoice"""
         existing_invoice = self.env['account.move'].search([
             ('move_type', '=', 'out_invoice'),
             ('partner_id', '=', self.customer_id.id),
@@ -107,7 +113,7 @@ class MachineService(models.Model):
             'move_type': 'out_invoice',
             'partner_id': self.customer_id.id,
             'invoice_line_ids': invoice_line,
-            'service_id':self.id,
+            'service_id': self.id,
         })
 
         return {
@@ -119,3 +125,4 @@ class MachineService(models.Model):
             'target': 'current',
             'res_id': invoice.id,
         }
+

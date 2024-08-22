@@ -2,7 +2,7 @@
     'name': "Machine Management",
     'application': True,
     'version': '17.0.1.0.4',
-    'category' : 'Sales/Sales',
+    'summary': 'Machine management, transfers and service',
     'description' : """
 This is a base module for managing machines and machine transfers
     """,
@@ -28,6 +28,7 @@ This is a base module for managing machines and machine transfers
         'data/machine_sequence.xml',
         'data/machine_type_data.xml',
         'data/product_product_data.xml',
+        'data/email_template.xml',
     ],
 
     'license': 'LGPL-3',

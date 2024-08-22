@@ -11,9 +11,9 @@ class MachinePart(models.Model):
     quantity = fields.Integer('Quantity', help="Quantity of the machine part")
     uom = fields.Char('Unit of measure', help="Unit of measure")
 
-    # auto assigning uom
     @api.onchange('product_id')
     def onchange_machine_id(self):
+        """auto assigning uom"""
         self.write({
             'uom': self.product_id.uom_id.name
         })
