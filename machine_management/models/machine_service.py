@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api, Command
+from odoo import models, fields, api, Command, _
 
 
 class MachineService(models.Model):
@@ -8,6 +8,7 @@ class MachineService(models.Model):
     _rec_name = 'machine_id'
 
     machine_id = fields.Many2one('machine.management', 'Machine', required=True, help="Name of the machine")
+    alternate_machine_id = fields.Many2one('machine.management', compute='compute_machine_id')
     customer_id = fields.Many2one('res.partner', 'Customer', help="Name of the customer")
     date_of_service = fields.Date('Date of service', help="Date of the service")
     description = fields.Text('Description')
@@ -18,12 +19,12 @@ class MachineService(models.Model):
         ('started', 'Started'),
         ('done', 'Done'),
         ('cancel', 'Cancel'),
-    ], string='State', required=True, copy=False, tracking=True, default='open',store=True)
+    ], string='State', required=True, copy=False, tracking=True, default='open', store=True)
     company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self: self.env.company,
                                  help="Name of the company")
     parts_ids = fields.Many2many('machine.part', 'machine_id')
     alternate_part_ids = fields.Many2many('machine.part', compute='compute_parts_consumed')
-    invoice_id = fields.One2many('account.move', 'service_id', 'Invoice id')
+    invoice_ids = fields.One2many('account.move', 'service_id', 'Invoice id')
     invoice_count = fields.Integer('Invoice count', compute='compute_count_of_transfer')
     service_frequency = fields.Selection([('weekly', 'Weekly'), ('monthly', 'Monthly'), ('yearly', 'Yearly')],
                                          'Service frequency', required=True, help="Service frequency")
@@ -49,6 +50,10 @@ class MachineService(models.Model):
             'state': 'done'
         })
 
+    def compute_machine_id(self):
+        """setting the machin id to not creating a service for existing machine"""
+        self.alternate_machine_id = self.env['machine.service'].search([('machine_id','!=',self.machine_id)])
+
 
     def action_get_invoices(self):
         """smart button for invoice"""
@@ -72,6 +77,7 @@ class MachineService(models.Model):
         self.write({
             'customer_id': self.machine_id.customer_id
         })
+
 
     def action_create_invoice(self):
         """creating invoice"""
@@ -125,4 +131,3 @@ class MachineService(models.Model):
             'target': 'current',
             'res_id': invoice.id,
         }
-

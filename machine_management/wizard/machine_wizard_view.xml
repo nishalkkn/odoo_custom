@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="machine_wizard_view_form" model="ir.ui.view">
+        <field name="name">machine.wizard.form</field>
+        <field name="model">machine.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Message">
+                <sheet>
+                       <b>This machine has some case in open state, You need to cancel it ?</b>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

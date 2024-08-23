@@ -29,6 +29,8 @@ This is a base module for managing machines and machine transfers
         'data/machine_type_data.xml',
         'data/product_product_data.xml',
         'data/email_template.xml',
+
+        'wizard/machine_wizard_view.xml',
     ],
 
     'license': 'LGPL-3',

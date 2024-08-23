@@ -32,7 +32,6 @@
                     <button name="action_create_invoice" string="Create invoice" class="oe_highlight" type="object"
                             invisible="invoice_count != 0 or state not in  'done'"/>
                     <field name="state" widget="statusbar" statusbar_visible="open,started,done,cancel"/>
-<!--                    <button name="action_send_mail" type="object" string="Send Email" class="oe_highlight"/>-->
                 </header>
                 <sheet>
                     <div name="button_box" position="inside">

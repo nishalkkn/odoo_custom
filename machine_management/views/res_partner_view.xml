@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
                 <page string="Machines">
-                    <field name="machine_id" domain="[('id','in',alternative_cust_ids)]"/>
+                    <field name="machine_ids" domain="[('id','in',alternative_cust_ids)]"/>
                     <field name="alternative_cust_ids" invisible="1"/>
                 </page>
             </xpath>

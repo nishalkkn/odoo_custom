@@ -71,7 +71,7 @@
                     <notebook>
                         <page string="Machine Parts">
                             <group>
-                                <field name="machine_part_id" nolabel="1" colspan="2"/>
+                                <field name="machine_part_ids" nolabel="1" colspan="2"/>
                             </group>
                         </page>
                         <page string="Description">

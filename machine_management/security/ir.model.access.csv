@@ -6,6 +6,15 @@ access_machine_tag,access.machine.tag,model_machine_tag,base.group_user,1,1,1,1
 access_machine_part,access.machine.part,model_machine_part,base.group_user,1,1,1,1
 access_machine_service,access.machine.service,model_machine_service,base.group_user,1,1,1,1
 
+access_machine_wizard,access.machine.wizard,model_machine_wizard,base.group_user,1,1,1,1
+
+
+
+
+
+
+
+
 
 
 

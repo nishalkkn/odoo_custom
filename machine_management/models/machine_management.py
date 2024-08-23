@@ -2,8 +2,7 @@
 from datetime import datetime
 
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError,UserError,RedirectWarning,MissingError,AccessError,CacheMiss,AccessDenied
-
+from odoo.exceptions import ValidationError
 
 
 class MachineManagement(models.Model):
@@ -32,7 +31,7 @@ class MachineManagement(models.Model):
     transfer_count = fields.Integer(compute='compute_count_of_transfer')
     service_count = fields.Integer(compute='compute_count_of_service')
     machine_tag_ids = fields.Many2many('machine.tag', string='Machine Tag', help="Machine tags")
-    machine_part_id = fields.One2many('machine.part', 'machine_id', 'Machine Parts', help="Parts used for machine")
+    machine_part_ids = fields.One2many('machine.part', 'machine_id', 'Machine Parts', help="Parts used for machine")
     date_of_purchase = fields.Date('Purchase date', help="Purchase date of machine")
     today_date = fields.Date(default=fields.date.today())
     total_days = fields.Integer('Age (Days)', help="Age of the machine")
@@ -140,8 +139,4 @@ class MachineManagement(models.Model):
         machine_service = self.env['machine.service'].search([('machine_id.id', '=', self.id), ('state', '=', 'open')])
         if machine_service:
             machine_service.write({'state': 'cancel'})
-            #code for warning
         return res
-
-
-
