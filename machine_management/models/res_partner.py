@@ -6,10 +6,10 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     machine_ids = fields.One2many('machine.management', 'customer_id', string="Machine")
-    alternative_cust_ids = fields.Many2many('machine.management', compute="compute_employee_machine_count")
+    alternative_cust_ids = fields.Many2many('machine.management', compute="_compute_employee_machine_count")
 
     @api.depends('name')
-    def compute_employee_machine_count(self):
+    def _compute_employee_machine_count(self):
         """domain setting for machine_ids"""
         self.alternative_cust_ids = self.env['machine.management'].search([('customer_id', '=', self.name)])
 

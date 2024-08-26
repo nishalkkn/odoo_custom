@@ -15,7 +15,7 @@ class MachineTransfer(models.Model):
                                      help="Type of transfer")
     customer_id = fields.Many2one('res.partner', 'Customer', help="Customer who bought the machine")
     internal_notes = fields.Html('Internal notes')
-    alternate_ids = fields.Many2many('machine.management', compute='compute_alternate_ids')
+    alternate_ids = fields.Many2many('machine.management', compute='_compute_alternate_ids')
     active = fields.Boolean(default=True)
 
     @api.onchange('machine_id')
@@ -33,7 +33,7 @@ class MachineTransfer(models.Model):
         })
 
     @api.depends('transfer_type')
-    def compute_alternate_ids(self):
+    def _compute_alternate_ids(self):
         """dynamic domain for machine_id wrt transfer_type"""
         for rec in self:
             if rec.transfer_type == 'remove':

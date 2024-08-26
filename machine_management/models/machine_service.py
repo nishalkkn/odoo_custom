@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api, Command, _
+from dateutil.relativedelta import relativedelta
+
+from odoo import models, fields, api, Command
+from odoo.exceptions import ValidationError
 
 
 class MachineService(models.Model):
@@ -7,8 +10,7 @@ class MachineService(models.Model):
     _description = 'Machine Service'
     _rec_name = 'machine_id'
 
-    machine_id = fields.Many2one('machine.management', 'Machine', required=True, help="Name of the machine")
-    alternate_machine_id = fields.Many2one('machine.management', compute='compute_machine_id')
+    machine_id  = fields.Many2one('machine.management', 'Machine', required=True, help="Name of the machine")
     customer_id = fields.Many2one('res.partner', 'Customer', help="Name of the customer")
     date_of_service = fields.Date('Date of service', help="Date of the service")
     description = fields.Text('Description')
@@ -23,17 +25,22 @@ class MachineService(models.Model):
     company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self: self.env.company,
                                  help="Name of the company")
     parts_ids = fields.Many2many('machine.part', 'machine_id')
-    alternate_part_ids = fields.Many2many('machine.part', compute='compute_parts_consumed')
+    alternate_part_ids = fields.Many2many('machine.part', compute='_compute_parts_consumed')
     invoice_ids = fields.One2many('account.move', 'service_id', 'Invoice id')
-    invoice_count = fields.Integer('Invoice count', compute='compute_count_of_transfer')
+    invoice_count = fields.Integer('Invoice count', compute='_compute_count_of_transfer')
     service_frequency = fields.Selection([('weekly', 'Weekly'), ('monthly', 'Monthly'), ('yearly', 'Yearly')],
                                          'Service frequency', required=True, help="Service frequency")
     last_service_date = fields.Date('Last service date', help="Date of last service")
+    next_service_date = fields.Date('Next service date', help="Date of next service",
+                                    compute='_compute_next_service_date')
+
+    # c=fields.Integer()
 
     @api.depends('machine_id')
-    def compute_parts_consumed(self):
+    def _compute_parts_consumed(self):
         """filter parts_consumed wrt machine_id"""
-        self.alternate_part_ids = self.env['machine.part'].search([('machine_id', '=', self.machine_id.id)])
+        for rec in self:
+            rec.alternate_part_ids = self.env['machine.part'].search([('machine_id', '=', self.machine_id.id)])
 
     def action_start_case(self):
         """button to change state to started """
@@ -50,26 +57,21 @@ class MachineService(models.Model):
             'state': 'done'
         })
 
-    def compute_machine_id(self):
-        """setting the machin id to not creating a service for existing machine"""
-        self.alternate_machine_id = self.env['machine.service'].search([('machine_id','!=',self.machine_id)])
-
-
     def action_get_invoices(self):
         """smart button for invoice"""
-        self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
             'name': 'Invoices',
             'view_mode': 'tree,form',
             'res_model': 'account.move',
             'domain': [('service_id', '=', self.id)],
-            'context': "{'create': False}"
+            'context': "{'create': False}",
         }
 
-    def compute_count_of_transfer(self):
+    def _compute_count_of_transfer(self):
         """computing count of invoices"""
-        self.invoice_count = self.env['account.move'].search_count([('service_id', '=', self.id)])
+        for rec in self:
+            rec.invoice_count = self.env['account.move'].search_count([('service_id', '=', self.id)])
 
     @api.onchange('machine_id')
     def onchange_machin_id(self):
@@ -77,7 +79,6 @@ class MachineService(models.Model):
         self.write({
             'customer_id': self.machine_id.customer_id
         })
-
 
     def action_create_invoice(self):
         """creating invoice"""
@@ -131,3 +132,31 @@ class MachineService(models.Model):
             'target': 'current',
             'res_id': invoice.id,
         }
+
+    @api.constrains('machine_id')
+    def check_machine_id(self):
+        """check the machine_id it there any service for same machine"""
+        service_count = self.env['machine.service'].search_count(
+            [('machine_id', '=', self.machine_id.id), ('state', '!=', 'done')])
+        if service_count > 1:
+            raise ValidationError("This machine already has a service")
+
+    @api.depends('last_service_date', 'service_frequency')
+    def _compute_next_service_date(self):
+        """computing next service date"""
+        for rec in self:
+            rec.next_service_date=False
+            if rec.last_service_date:
+                if rec.service_frequency == 'weekly':
+                    rec.next_service_date = rec.last_service_date + relativedelta(weeks=1)
+                elif rec.service_frequency == 'monthly':
+                    rec.next_service_date = rec.last_service_date + relativedelta(months=1)
+                else:
+                    rec.next_service_date = rec.last_service_date + relativedelta(years=1)
+
+
+    def recurring_service(self):
+        print(self)
+        all_recs = self.search([])
+        for rec in all_recs:
+            print(rec.next_service_date)

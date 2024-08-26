@@ -28,8 +28,8 @@ class MachineManagement(models.Model):
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.company, help="Company name")
     machine_type_id = fields.Many2one('machine.type', 'Machine Type', help="Which is the type of the machine")
-    transfer_count = fields.Integer(compute='compute_count_of_transfer')
-    service_count = fields.Integer(compute='compute_count_of_service')
+    transfer_count = fields.Integer(compute='_compute_count_of_transfer')
+    service_count = fields.Integer(compute='_compute_count_of_service')
     machine_tag_ids = fields.Many2many('machine.tag', string='Machine Tag', help="Machine tags")
     machine_part_ids = fields.One2many('machine.part', 'machine_id', 'Machine Parts', help="Parts used for machine")
     date_of_purchase = fields.Date('Purchase date', help="Purchase date of machine")
@@ -57,7 +57,7 @@ class MachineManagement(models.Model):
             'context': "{'create': False}"
         }
 
-    def compute_count_of_transfer(self):
+    def _compute_count_of_transfer(self):
         """computing count of transfers"""
         self.transfer_count = self.env['machine.transfer'].search_count([('machine_id', '=', self.id)])
 
@@ -119,7 +119,7 @@ class MachineManagement(models.Model):
             'context': "{'create': False}"
         }
 
-    def compute_count_of_service(self):
+    def _compute_count_of_service(self):
         """computing count of services"""
         self.service_count = self.env['machine.service'].search_count([('machine_id', '=', self.id)])
 

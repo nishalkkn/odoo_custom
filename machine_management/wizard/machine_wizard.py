@@ -4,6 +4,11 @@ class WhatsappSendMessage(models.TransientModel):
    _name = 'machine.wizard'
    _description = "Machine Wizard"
 
+
+   machine_id = fields.Many2one('machine.management')
+
+
+
    # def action_wizard(self):
    #    return {'type': 'ir.actions.act_window',
    #            'name': _('Warning'),
