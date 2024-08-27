@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from odoo import models, fields, api
 
 
@@ -17,6 +16,8 @@ class MachineTransfer(models.Model):
     internal_notes = fields.Html('Internal notes')
     alternate_ids = fields.Many2many('machine.management', compute='_compute_alternate_ids')
     active = fields.Boolean(default=True)
+    company_id = fields.Many2one('res.company', string='Company', required=True,
+                                 default=lambda self: self.env.company, help="Company name")
 
     @api.onchange('machine_id')
     def _onchange_machine_id(self):

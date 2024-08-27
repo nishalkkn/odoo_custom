@@ -10,7 +10,7 @@ class MachineService(models.Model):
     _description = 'Machine Service'
     _rec_name = 'machine_id'
 
-    machine_id  = fields.Many2one('machine.management', 'Machine', required=True, help="Name of the machine")
+    machine_id = fields.Many2one('machine.management', 'Machine', required=True, help="Name of the machine")
     customer_id = fields.Many2one('res.partner', 'Customer', help="Name of the customer")
     date_of_service = fields.Date('Date of service', help="Date of the service")
     description = fields.Text('Description')
@@ -33,14 +33,13 @@ class MachineService(models.Model):
     last_service_date = fields.Date('Last service date', help="Date of last service")
     next_service_date = fields.Date('Next service date', help="Date of next service",
                                     compute='_compute_next_service_date')
-
-    # c=fields.Integer()
+    active = fields.Boolean(default=True)
 
     @api.depends('machine_id')
     def _compute_parts_consumed(self):
         """filter parts_consumed wrt machine_id"""
         for rec in self:
-            rec.alternate_part_ids = self.env['machine.part'].search([('machine_id', '=', self.machine_id.id)])
+            rec.alternate_part_ids = rec.env['machine.part'].search([('machine_id', '=', rec.machine_id.id)])
 
     def action_start_case(self):
         """button to change state to started """
@@ -50,9 +49,11 @@ class MachineService(models.Model):
 
     def action_close_case(self):
         """button to change state to done and send email to customer when state become done """
+        if not self.env.user.has_group(
+                'machine_management.machine_manager') or self.env.user.name != self.tech_person_ids.name:
+            raise ValidationError("Only assigned tech person or manager can close the case")
         template = self.env.ref('machine_management.email_template_name')
         template.send_mail(self.id, force_send=True)
-
         self.write({
             'state': 'done'
         })
@@ -71,7 +72,7 @@ class MachineService(models.Model):
     def _compute_count_of_transfer(self):
         """computing count of invoices"""
         for rec in self:
-            rec.invoice_count = self.env['account.move'].search_count([('service_id', '=', self.id)])
+            rec.invoice_count = rec.env['account.move'].search_count([('service_id', '=', rec.id)])
 
     @api.onchange('machine_id')
     def onchange_machin_id(self):
@@ -135,7 +136,7 @@ class MachineService(models.Model):
 
     @api.constrains('machine_id')
     def check_machine_id(self):
-        """check the machine_id it there any service for same machine"""
+        """check the machine_id if there is any service for same machine"""
         service_count = self.env['machine.service'].search_count(
             [('machine_id', '=', self.machine_id.id), ('state', '!=', 'done')])
         if service_count > 1:
@@ -145,7 +146,7 @@ class MachineService(models.Model):
     def _compute_next_service_date(self):
         """computing next service date"""
         for rec in self:
-            rec.next_service_date=False
+            rec.next_service_date = False
             if rec.last_service_date:
                 if rec.service_frequency == 'weekly':
                     rec.next_service_date = rec.last_service_date + relativedelta(weeks=1)
@@ -154,9 +155,23 @@ class MachineService(models.Model):
                 else:
                     rec.next_service_date = rec.last_service_date + relativedelta(years=1)
 
+    def action_archive(self):
+        """function for archiving service"""
+        if not self.env.user.has_group('machine_management.machine_manager'):
+            raise ValidationError("Only manger can archive case")
+        res = super().action_archive()
+        return res
 
     def recurring_service(self):
-        print(self)
+        """Scheduled action for recurring service"""
         all_recs = self.search([])
         for rec in all_recs:
-            print(rec.next_service_date)
+            if rec.next_service_date == fields.Date.today() and rec.state == 'done':
+                self.create({
+                    'machine_id': rec.machine_id.id,
+                    'service_frequency': rec.service_frequency,
+                    'last_service_date': rec.next_service_date,
+                    'parts_ids': rec.parts_ids,
+                    'customer_id': rec.customer_id.id,
+                    'tech_person_ids': rec.tech_person_ids
+                })

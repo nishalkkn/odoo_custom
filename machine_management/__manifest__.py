@@ -3,7 +3,7 @@
     'application': True,
     'version': '17.0.1.0.4',
     'summary': 'Machine management, transfers and service',
-    'description' : """
+    'description': """
 This is a base module for managing machines and machine transfers
     """,
 
@@ -23,6 +23,7 @@ This is a base module for managing machines and machine transfers
         'views/res_partner_view.xml',
         'views/machine_service_view.xml',
 
+        'security/security.xml',
         'security/ir.model.access.csv',
 
         'data/machine_sequence.xml',
@@ -30,6 +31,7 @@ This is a base module for managing machines and machine transfers
         'data/product_product_data.xml',
         'data/email_template.xml',
         'data/ir_cron_data.xml',
+        'data/record_rules.xml',
 
         'wizard/machine_wizard_view.xml',
     ],

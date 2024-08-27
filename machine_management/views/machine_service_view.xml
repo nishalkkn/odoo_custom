@@ -13,7 +13,7 @@
         <field name="arch" type="xml">
             <tree string="Channel">
                 <field name="machine_id"/>
-                <field name="date_of_service"/>
+                <field name="next_service_date"/>
                 <field name="customer_id"/>
                 <field name="company_id"/>
                 <field name="state"/>
@@ -42,11 +42,12 @@
                     <group>
                         <group>
                             <field name="machine_id" domain="[('state','=','in_service')]"/>
-                            <field name="date_of_service"/>
+                            <!--                            <field name="date_of_service"/>-->
                             <field name="customer_id"/>
+                            <field name="company_id"/>
+
                         </group>
                         <group>
-                            <field name="company_id"/>
                             <field name="tech_person_ids" widget="many2many_tags"/>
                             <field name="service_frequency"/>
                             <field name="last_service_date"/>
@@ -67,6 +68,17 @@
                     </notebook>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <record id="machine_service_view_search" model="ir.ui.view">
+        <field name="name">machine.service.search</field>
+        <field name="model">machine.service</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="machine_id" string="Machine"/>
+                <filter string="Archived" name="Archived" domain="[('active','=',False)]"/>
+            </search>
         </field>
     </record>
 

@@ -17,6 +17,7 @@
                 <field name="transfer_date"/>
                 <field name="transfer_type"/>
                 <field name="customer_id"/>
+                <field name="company_id"/>
             </tree>
         </field>
     </record>
@@ -39,6 +40,7 @@
                         </group>
                         <group>
                             <field name="transfer_type"/>
+                            <field name="company_id"/>
                             <field name="customer_id" invisible="transfer_type in 'remove'" required="1"/>
                         </group>
                     </group>

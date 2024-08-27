@@ -5,7 +5,7 @@
             <field name="name">Recurring Machine Service</field>
             <field name="model_id" ref="model_machine_service"/>
             <field name="state">code</field>
-            <field name="code">action = records.recurring_service()</field>
+            <field name="code">model.recurring_service()</field>
             <field name="user_id" ref="base.user_root"/>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>

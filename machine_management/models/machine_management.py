@@ -59,7 +59,8 @@ class MachineManagement(models.Model):
 
     def _compute_count_of_transfer(self):
         """computing count of transfers"""
-        self.transfer_count = self.env['machine.transfer'].search_count([('machine_id', '=', self.id)])
+        for rec in self:
+            rec.transfer_count = rec.env['machine.transfer'].search_count([('machine_id', '=', rec.id)])
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -121,7 +122,8 @@ class MachineManagement(models.Model):
 
     def _compute_count_of_service(self):
         """computing count of services"""
-        self.service_count = self.env['machine.service'].search_count([('machine_id', '=', self.id)])
+        for rec in self:
+            rec.service_count = rec.env['machine.service'].search_count([('machine_id', '=', rec.id)])
 
     @api.ondelete(at_uninstall=False)
     def ondelete_machine(self):
@@ -131,6 +133,8 @@ class MachineManagement(models.Model):
 
     def action_archive(self):
         """archive function for machine"""
+        if not self.env.user.has_group('machine_management.machine_manager'):
+            raise ValidationError("Only Manager can archive machine")
         res = super().action_archive()
         if self.state == 'in_service':
             raise ValidationError("You can only archive the machine in active state")
