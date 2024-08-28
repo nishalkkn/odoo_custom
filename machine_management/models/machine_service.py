@@ -15,7 +15,7 @@ class MachineService(models.Model):
     date_of_service = fields.Date('Date of service', help="Date of the service")
     description = fields.Text('Description')
     internal_note = fields.Html('Internal note')
-    tech_person_ids = fields.Many2many('hr.employee', string='Tech person', help="Assigned person for the service")
+    tech_person_ids = fields.Many2many('res.users', string='Tech person', help="Assigned person for the service")
     state = fields.Selection(selection=[
         ('open', 'Open'),
         ('started', 'Started'),
@@ -49,11 +49,13 @@ class MachineService(models.Model):
 
     def action_close_case(self):
         """button to change state to done and send email to customer when state become done """
-        if not self.env.user.has_group(
-                'machine_management.machine_manager') or self.env.user.name != self.tech_person_ids.name:
+        tech_person = self.tech_person_ids.mapped('id')
+        if not self.env.user.has_group('machine_management.machine_manager') and self.env.user.id not in tech_person:
             raise ValidationError("Only assigned tech person or manager can close the case")
+
         template = self.env.ref('machine_management.email_template_name')
         template.send_mail(self.id, force_send=True)
+
         self.write({
             'state': 'done'
         })
@@ -164,14 +166,27 @@ class MachineService(models.Model):
 
     def recurring_service(self):
         """Scheduled action for recurring service"""
-        all_recs = self.search([])
+        all_recs = self.search([('next_service_date', '=', fields.Date.today()), ('state', '=', 'done')])
         for rec in all_recs:
-            if rec.next_service_date == fields.Date.today() and rec.state == 'done':
-                self.create({
-                    'machine_id': rec.machine_id.id,
-                    'service_frequency': rec.service_frequency,
-                    'last_service_date': rec.next_service_date,
-                    'parts_ids': rec.parts_ids,
-                    'customer_id': rec.customer_id.id,
-                    'tech_person_ids': rec.tech_person_ids
-                })
+            self.create({
+                'machine_id': rec.machine_id.id,
+                'service_frequency': rec.service_frequency,
+                'last_service_date': rec.next_service_date,
+                'parts_ids': rec.parts_ids,
+                'customer_id': rec.customer_id.id,
+                'tech_person_ids': rec.tech_person_ids
+            })
+
+    # def recurring_service(self):
+    #     """Scheduled action for recurring service"""
+    # all_recs = self.search([('next_service_date', '=', fields.Date.today()), ('state', '=', 'done')])
+    # service_data = [{
+    #         'machine_id': rec.machine_id.id,
+    #         'service_frequency': rec.service_frequency,
+    #         'last_service_date': rec.next_service_date,
+    #         # 'parts_ids': rec.parts_ids,
+    #         'customer_id': rec.customer_id.id,
+    #         # 'tech_person_ids': rec.tech_person_ids
+    #     }for rec in all_recs]
+    # print(service_data)
+    # self.env['machine.service'].create(service_data)

@@ -37,10 +37,10 @@
                 </header>
                 <sheet>
                     <div name="button_box" position="inside">
-                        <button class="oe_stat_button" type="object" name="action_get_transfers" icon="fa-bars">
+                        <button class="oe_stat_button" type="object" name="action_get_transfer_count" icon="fa-bars">
                             <field string="Transfers" name="transfer_count" widget="statinfo"/>
                         </button>
-                        <button class="oe_stat_button" type="object" name="action_get_service" icon="fa-bars">
+                        <button class="oe_stat_button" type="object" name="action_get_service_count" icon="fa-bars">
                             <field string="Services" name="service_count" widget="statinfo"/>
                         </button>
                     </div>

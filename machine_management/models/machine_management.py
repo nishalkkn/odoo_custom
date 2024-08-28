@@ -45,7 +45,7 @@ class MachineManagement(models.Model):
             today_date = datetime.strptime(str(self.today_date), '%Y-%m-%d')
             self.total_days = (today_date - purchase_date).days
 
-    def action_get_transfers(self):
+    def action_get_transfer_count(self):
         """smart button for transfers"""
         self.ensure_one()
         return {
@@ -108,7 +108,7 @@ class MachineManagement(models.Model):
             'target': 'current'
         }
 
-    def action_get_service(self):
+    def action_get_service_count(self):
         """smart button for services"""
         self.ensure_one()
         return {
