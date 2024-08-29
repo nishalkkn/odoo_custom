@@ -15,5 +15,7 @@ This is a module for Odoo demo
             'owl_basic/static/src/xml/**',
 
         ]
-    }
+    },
+
+    'license': 'LGPL-3'
 }

@@ -26,4 +26,3 @@ class ResPartner(models.Model):
         machine = self.env['machine.management'].search([('customer_id.id', '=', self.id),('active', '=', False)])
         machine.write({'active': True})
         return res
-
