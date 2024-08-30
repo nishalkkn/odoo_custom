@@ -28,20 +28,21 @@ class SaleOrderPayment(models.Model):
     @api.depends('invoice_ids.payment_state', 'invoice_ids.state')
     def _compute_button_state(self):
         """computing the button state"""
-        if self.invoice_ids:
-            var = self.invoice_ids.mapped('payment_state')
-            for rec in self.invoice_ids:
-                if rec.state == 'posted':
-                    self.write({
-                        'button_state': 'visible'
+        for rec in self:
+            if rec.invoice_ids:
+                payment_state = rec.invoice_ids.mapped('payment_state')
+                for invoice in rec.invoice_ids:
+                    if invoice.state == 'posted':
+                        rec.write({
+                            'button_state': 'visible'
+                        })
+                    if 'paid' in payment_state:
+                        rec.write({
+                            'partial_paid_ribbon': True
+                        })
+                if 'paid' in payment_state and 'not_paid' not in payment_state:
+                    rec.write({
+                        'button_state': 'hidden',
+                        'partial_paid_ribbon': False,
+                        'fully_paid_ribbon': True
                     })
-                if 'paid' in var:
-                    self.write({
-                        'partial_paid_ribbon': True
-                    })
-            if 'paid' in var and 'not_paid' not in var:
-                self.write({
-                    'button_state': 'hidden',
-                    'partial_paid_ribbon': False,
-                    'fully_paid_ribbon': True
-                })

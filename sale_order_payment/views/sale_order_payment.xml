@@ -11,14 +11,14 @@
                         invisible="button_state not in 'visible'"/>
                 <field name="button_state" invisible="1"/>
             </xpath>
-<!--            <xpath expr="//field[@name='name']" position="before">-->
-<!--                <widget name="web_ribbon" title="Paid" bg_color="text-bg-success"-->
-<!--                        invisible="fully_paid_ribbon != True"/>-->
-<!--                <field name="fully_paid_ribbon" invisible="1"/>-->
-<!--                <widget name="web_ribbon" title="Partially Paid" bg_color="text-bg-success"-->
-<!--                        invisible="partial_paid_ribbon != True"/>-->
-<!--                <field name="partial_paid_ribbon" invisible="1"/>-->
-<!--            </xpath>-->
+            <xpath expr="//field[@name='name']" position="before">
+                <widget name="web_ribbon" title="Paid" bg_color="text-bg-success"
+                        invisible="fully_paid_ribbon != True"/>
+                <field name="fully_paid_ribbon" invisible="1"/>
+                <widget name="web_ribbon" title="Partially Paid" bg_color="text-bg-success"
+                        invisible="partial_paid_ribbon != True"/>
+                <field name="partial_paid_ribbon" invisible="1"/>
+            </xpath>
         </field>
     </record>
 
