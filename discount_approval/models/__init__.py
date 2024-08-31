@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-from . import discount_approval
+from . import sale_order

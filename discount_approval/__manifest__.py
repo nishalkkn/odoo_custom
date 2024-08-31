@@ -11,6 +11,9 @@
         'sale',
     ],
     'data': [
+        'views/sale_order.xml',
+
+        'wizard/discount_approval.xml',
     ],
 
     'license': 'LGPL-3'
