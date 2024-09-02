@@ -9,14 +9,32 @@
             <xpath expr="//setting[@id='discount_sale_order_lines']"
                    position="after">
                 <setting id="discount_approval"
-                         title="User can limit the discount amount"
-                         help="User can limit the discount amount"
+                         title="Can limit the discount amount"
+                         help="Can limit the discount amount"
                          invisible="not group_discount_per_so_line">
                     <field name="_is_discount_limit"/>
                     <div class="content-group" invisible="not _is_discount_limit">
                         <div class="mt16">
-                            <label for="discount_limit"/>
-                            <field name="discount_limit"/>
+                            <group>
+                                <field name="discount_type" widget="radio"/>
+                            </group>
+                        </div>
+                        <div class="mt16">
+                            <group>
+                                <field name="discount_limit_fixed" widget="monetary"
+                                       invisible="discount_type != 'fixed_amount'" style="width:5rem"/>
+                            </group>
+                            <group>
+                                <field name="discount_limit_percentage" widget="percentage"
+                                       invisible="discount_type != 'percentage'" style="width:5rem"/>
+                            </group>
+                        </div>
+                    </div>
+                    <div class="content-group" invisible="not _is_discount_limit">
+                        <div class="mt16">
+                            <group>
+                                <field name="apply_on" widget="radio"/>
+                            </group>
                         </div>
                     </div>
                 </setting>
