@@ -11,7 +11,8 @@ class ResPartner(models.Model):
     @api.depends('name')
     def _compute_employee_machine_count(self):
         """domain setting for machine_ids"""
-        self.alternative_cust_ids = self.env['machine.management'].search([('customer_id', '=', self.name)])
+        for rec in self:
+            rec.alternative_cust_ids = rec.env['machine.management'].search([('customer_id', '=', self.name)])
 
     def action_archive(self):
         """archiving machine belongs to customer"""

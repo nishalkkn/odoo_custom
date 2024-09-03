@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="tolerance_wizard_view_form" model="ir.ui.view">
+        <field name="name">tolerance.wizard.form</field>
+        <field name="model">tolerance.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Message">
+                <sheet>
+                    <b>
+                        Some of the quantities of products exceeding the tolerance range of customer, Do you want to
+                        continue ?
+                    </b>
+                </sheet>
+                <footer>
+                    <button string="Continue" name="action_continue" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
