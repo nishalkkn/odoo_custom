@@ -1,18 +1,10 @@
-from odoo import fields, models, api, _
+from odoo import fields, models, _
 
 
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    tolerance = fields.Float('Tolerance', compute='_compute_tolerance_delivery')
-
-    @api.depends('sale_line_id')
-    def _compute_tolerance_delivery(self):
-        """computing the tolerance for delivery orders"""
-        for rec in self:
-            rec.write({
-                'tolerance': rec.sale_line_id.tolerance
-            })
+    tolerance = fields.Float('Tolerance', related='sale_line_id.tolerance')
 
 
 class StockPicking(models.Model):
