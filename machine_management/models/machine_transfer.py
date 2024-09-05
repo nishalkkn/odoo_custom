@@ -38,6 +38,7 @@ class MachineTransfer(models.Model):
         """dynamic domain for machine_id wrt transfer_type"""
         for rec in self:
             if rec.transfer_type == 'remove':
+                rec.customer_id = False
                 rec.alternate_ids = rec.env['machine.management'].search([('state', '=', 'in_service')])
             elif rec.transfer_type == 'install':
                 rec.alternate_ids = rec.env['machine.management'].search([('state', '=', 'active')])

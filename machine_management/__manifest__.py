@@ -33,6 +33,8 @@ This is a base module for managing machine and machine transfer and machine serv
         'data/email_template.xml',
         'data/ir_cron_data.xml',
 
+        'wizard/machine_wizard_view.xml',
+
         'report/ir_actions_report.xml',
         'report/machine_transfer_report.xml',
     ],
