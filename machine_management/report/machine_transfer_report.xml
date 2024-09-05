@@ -2,24 +2,53 @@
 <odoo>
     <template id="machine_transfer_report">
         <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="i">
-                <t t-call="web.external_layout">
-                    <div class="page">
-                        <div class="oe_structure"/>
-                        <h2>Machine Transfer Report</h2>
-                        <br></br>
-                        <p>
-                            Machine :
-                            <span t-field="i.machine_id"/><br/>
-                            Transfer date :
-                            <span t-field="i.transfer_date"/><br/>
-                            Transfer type :
-                            <span t-field="i.transfer_type"/><br/>
-                            Customer :
-                            <span t-field="i.customer_id"/><br/>
-                        </p>
-                    </div>
-                </t>
+            <t t-call="web.external_layout">
+                <div>
+                    <table class="table report_border table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th style="padding: 0px;" class="text-center">
+                                    <h5>
+                                        <b>Machine</b>
+                                    </h5>
+                                </th>
+                                <th style="padding: 0px;" class="text-center">
+                                    <h5>
+                                        <b>date</b>
+                                    </h5>
+                                </th>
+                                <th style="padding: 0px;" class="text-center">
+                                    <h5>
+                                        <b>Transfer type</b>
+                                    </h5>
+                                </th>
+                                <th style="padding: 0px;" class="text-center">
+                                    <h5>
+                                        <b>Customer</b>
+                                    </h5>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="report" t-as="d">
+                                <tr>
+                                    <td class="text-center" style="vertical-align:middle;">
+                                        <span t-esc="d[0]"/>
+                                    </td>
+                                    <td class="text-center" style="vertical-align:middle;">
+                                        <span t-esc="d[1]"/>
+                                    </td>
+                                    <td class="text-center" style="vertical-align:middle;">
+                                        <span t-esc="d[2]"/>
+                                    </td>
+                                    <td class="text-center" style="vertical-align:middle;">
+                                        <span t-esc="d[3]"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
             </t>
         </t>
     </template>
