@@ -11,7 +11,7 @@ access_machine_part,access.machine.part,model_machine_part,machine_tech_person,1
 access_machine_service_manager,access.machine.service,model_machine_service,machine_manager,1,1,1,1
 access_machine_service_tech_person,access.machine.service,model_machine_service,machine_tech_person,1,1,0,0
 
-access_machine_wizard,access.machine.wizard,model_machine_wizard,base.group_user,1,1,1,1
+access_machine_wizard,access.machine.wizard,model_machine_wizard,machine_tech_person,1,1,1,1
 
 
 

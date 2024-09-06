@@ -7,7 +7,5 @@
         <field name="report_name">machine_management.machine_transfer_report</field>
         <field name="report_file">machine_management.machine_transfer_report</field>
         <field name="print_report_name">'Machine Transfer Report - %s' % (object.machine_id.name)</field>
-<!--        <field name="binding_model_id" ref="machine_management.model_machine_transfer"/>-->
-<!--        <field name="binding_type">report</field>-->
     </record>
 </odoo>
