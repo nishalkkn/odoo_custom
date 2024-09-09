@@ -15,7 +15,8 @@
                 </group>
                 <group>
                     <footer>
-                        <button string="Print" name="action_print_record" class="oe_highlight" type="object"/>
+                        <button string="Print Pdf" name="action_print_record" class="oe_highlight" type="object"/>
+                        <button string="Print Exel" name="action_print_exel" class="oe_highlight" type="object"/>
                         <button string="Cancel" special="cancel"/>
                     </footer>
                 </group>

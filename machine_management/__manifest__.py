@@ -39,6 +39,12 @@ This is a base module for managing machine and machine transfer and machine serv
         'report/machine_transfer_report.xml',
     ],
 
+    'assets': {
+        'web.assets_backend': [
+            'machine_management/static/src/js/action_manager.js'
+        ]
+    },
+
     'license': 'LGPL-3',
 
 }
