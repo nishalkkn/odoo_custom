@@ -1,7 +1,7 @@
 {
     'name': "Machine Management",
     'application': True,
-    'version': '17.0.1.0.6',
+    'version': '17.0.1.0.8',
     'summary': 'Machine management, transfer and service',
     'description': """
 This is a base module for managing machine and machine transfer and machine service
