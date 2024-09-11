@@ -27,8 +27,12 @@
         <field name="arch" type="xml">
             <form string="Machine Service">
                 <header>
-                    <button name="action_start_case" string="Start case" type="object" invisible="state in 'started'"/>
-                    <button name="action_close_case" string="Close case" type="object" invisible="state in 'done'"/>
+                    <button name="action_start_case" string="Start case" type="object"
+                            invisible="state in 'started' or state in 'request'"/>
+                    <button name="action_close_case" string="Close case" type="object"
+                            invisible="state in 'done' or state in 'request'"/>
+                    <button name="action_approve_service_request" string="Approve" type="object"
+                            invisible="state not in 'request'" groups="machine_management.machine_tech_person"/>
                     <button name="action_create_invoice" string="Create invoice" class="oe_highlight" type="object"
                             invisible="invoice_count != 0 or state not in  'done'"/>
                     <field name="state" widget="statusbar" statusbar_visible="open,started,done,cancel"/>
@@ -45,7 +49,6 @@
                             <!--                            <field name="date_of_service"/>-->
                             <field name="customer_id"/>
                             <field name="company_id"/>
-
                         </group>
                         <group>
                             <field name="tech_person_ids" widget="many2many_tags"/>

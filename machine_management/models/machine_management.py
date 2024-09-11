@@ -135,12 +135,23 @@ class MachineManagement(models.Model):
         """archive function for machine"""
         if not self.env.user.has_group('machine_management.machine_manager'):
             raise ValidationError("Only Manager can archive machine")
-        res = super().action_archive()
         if self.state == 'in_service':
             raise ValidationError("You can only archive the machine in active state")
+        res = super().action_archive()
         machine_transfer = self.env['machine.transfer'].search([('machine_id.id', '=', self.id)])
         machine_transfer.write({'active': False})
         machine_service = self.env['machine.service'].search([('machine_id.id', '=', self.id), ('state', '=', 'open')])
         if machine_service:
             machine_service.write({'state': 'cancel'})
+            notification = {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': _('Warning'),
+                    'type': 'warning',
+                    'message': 'We cancelling the open machine services',
+                    'sticky': True,
+                }
+            }
+            return notification
         return res

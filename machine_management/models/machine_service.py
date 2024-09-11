@@ -17,6 +17,7 @@ class MachineService(models.Model):
     internal_note = fields.Html('Internal note')
     tech_person_ids = fields.Many2many('res.users', string='Tech person', help="Assigned person for the service")
     state = fields.Selection(selection=[
+        ('request', 'Request'),
         ('open', 'Open'),
         ('started', 'Started'),
         ('done', 'Done'),
@@ -40,6 +41,10 @@ class MachineService(models.Model):
         """filter parts_consumed wrt machine_id"""
         for rec in self:
             rec.alternate_part_ids = rec.env['machine.part'].search([('machine_id', '=', rec.machine_id.id)])
+
+    def action_approve_service_request(self):
+        """button to approve the service request"""
+        self.state = 'open'
 
     def action_start_case(self):
         """button to change state to started """

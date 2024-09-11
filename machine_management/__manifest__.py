@@ -22,6 +22,8 @@ This is a base module for managing machine and machine transfer and machine serv
         'views/machine_part_view.xml',
         'views/res_partner_view.xml',
         'views/machine_service_view.xml',
+        'views/website_menu.xml',
+        'views/website_template.xml',
 
         'security/security.xml',
         'security/record_rules.xml',
