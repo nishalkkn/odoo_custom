@@ -6,3 +6,4 @@ from . import machine_transfer
 from . import machine_type
 from . import res_partner
 from . import machine_invoice
+from . import ir_attachment

@@ -68,6 +68,10 @@
                         <page string="Internal Notes">
                             <field name="internal_note" nolabel="1" colspan="2"/>
                         </page>
+                        <page string="Attachment">
+                            <field name="attachment_ids"
+                                   widget="many2many_binary" width="500px"/>
+                        </page>
                     </notebook>
                 </sheet>
             </form>

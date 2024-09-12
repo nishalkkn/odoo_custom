@@ -34,6 +34,9 @@ class MachineService(models.Model):
     last_service_date = fields.Date('Last service date', help="Date of last service")
     next_service_date = fields.Date('Next service date', help="Date of next service",
                                     compute='_compute_next_service_date')
+    # image = fields.Image('image', help="Image of the machine to service")
+    attachment_ids = fields.Many2many('ir.attachment', 'attach_rel', 'doc_id', 'attach_id', string="Attachment",
+                                  help='You can upload your document', copy=False)
     active = fields.Boolean(default=True)
 
     @api.depends('machine_id')

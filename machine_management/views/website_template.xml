@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <template id="web_form_template">
         <t t-call="website.layout">
             <div id="wrap" class="oe_structure oe_empty">
@@ -12,97 +13,126 @@
                         <h1>Machine Service Request</h1>
                     </div>
                 </section>
-                <div class="container">
-                    <form action="/webform/submit" enctype="multipart/form-data" class="o_mark_required"
-                          data-mark="*" data-success-mode="redirect"
-                          data-model_name="" data-success-page="/service-thank-you" method="post">
-                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                        <div class="s_website_form_rows row s_col_no_bgcolor">
-
-                            <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom s_website_form_required"
-                                 data-type="char" data-name="name">
-                                <div class="row s_col_no_resize s_col_no_bgcolor">
-                                    <label class="col-form-label col-sm-auto s_website_form_label"
-                                           style="width: 200px" for="contact1">
-                                        <span class="s_website_form_label_content">Name</span>
-                                        <span class="s_website_form_mark">*</span>
-                                    </label>
-                                    <div class="col-sm">
-                                        <input id="customer_id" type="text"
-                                               class="form-control s_website_form_input"
-                                               name="customer_id" required="" t-att-value="request.env.user.name"/>
-                                    </div>
+                <section class="s_text_block pt40 pb40 o_colored_level " data-snippet="s_text_block">
+                    <div class="container s_allow_columns">
+                        <div class="row">
+                            <div class="col-lg-8 mt-4 mt-lg-0">
+                                <div class="container">
+                                    <form action="/webform/submit" enctype="multipart/form-data"
+                                          class="o_mark_required"
+                                          data-mark="*" data-success-mode="redirect"
+                                          data-model_name="" data-success-page="/service-thank-you" method="post">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <div class="s_website_form_rows row s_col_no_bgcolor">
+                                            <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom s_website_form_required"
+                                                 data-type="char" data-name="name">
+                                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                    <label class="col-form-label col-sm-auto s_website_form_label"
+                                                           style="width: 200px" for="contact1">
+                                                        <span class="s_website_form_label_content">Name</span>
+                                                        <span class="s_website_form_mark">*</span>
+                                                    </label>
+                                                    <div class="col-sm">
+                                                        <input id="customer_id" type="text"
+                                                               class="form-control s_website_form_input"
+                                                               name="customer_id" required=""
+                                                               t-att-value="request.env.user.name"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom s_website_form_required"
+                                                 data-type="many2one" data-name="machine_id">
+                                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                    <label class="col-form-label col-sm-auto s_website_form_label"
+                                                           style="width: 200px" for="contact1">
+                                                        <span class="s_website_form_label_content">Machine</span>
+                                                        <span class="s_website_form_mark">*</span>
+                                                    </label>
+                                                    <div class="col-sm">
+                                                        <select id="machine_id" required="True" class="form-control"
+                                                                name="machine_id">
+                                                            <t t-foreach="request.env['machine.management'].sudo().search([])"
+                                                               t-as="machine">
+                                                                <option style="display:none"/>
+                                                                <option t-att-value="machine.id"
+                                                                        t-esc="machine.name"/>
+                                                            </t>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom s_website_form_required"
+                                                 data-type="selection" data-name="service_frequency">
+                                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                    <label class="col-form-label col-sm-auto s_website_form_label"
+                                                           style="width: 200px" for="contact1">
+                                                        <span class="s_website_form_label_content">Service
+                                                            frequency
+                                                        </span>
+                                                        <span class="s_website_form_mark">*</span>
+                                                    </label>
+                                                    <div class="col-sm">
+                                                        <select id="service_frequency" required="True"
+                                                                class="form-control"
+                                                                name="service_frequency">
+                                                            <option style="display:none"/>
+                                                            <option value="weekly">Weekly</option>
+                                                            <option value="monthly">Monthly</option>
+                                                            <option value="yearly">Yearly</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom s_website_form_required"
+                                                 data-type="date" data-name="last_service_date">
+                                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                    <label class="col-form-label col-sm-auto s_website_form_label"
+                                                           style="width: 200px" for="contact1">
+                                                        <span class="s_website_form_label_content">Last service
+                                                            date
+                                                        </span>
+                                                        <span class="s_website_form_mark">*</span>
+                                                    </label>
+                                                    <div class="col-sm">
+                                                        <input id="last_service_date" type="date"
+                                                               class="form-control s_website_form_input"
+                                                               name="last_service_date" required=""/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom s_website_form_required"
+                                                 data-type="file"
+                                                 data-name="image">
+                                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                    <label class="col-form-label col-sm-auto s_website_form_label"
+                                                           style="width: 200px"
+                                                           for="image">
+                                                        <span class="s_website_form_label_content">
+                                                            Image
+                                                        </span>
+                                                        <span class="s_website_form_mark">*</span>
+                                                    </label>
+                                                    <div class="col-sm">
+                                                        <input type="file" name="image" multiple="true"
+                                                               accept="image/*"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-12 s_website_form_submit"
+                                                 data-name="Submit Button">
+                                                <div style="width: 200px;" class="s_website_form_label"/>
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                            </div>
-
-                            <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom s_website_form_required"
-                                 data-type="many2one" data-name="machine_id">
-                                <div class="row s_col_no_resize s_col_no_bgcolor">
-                                    <label class="col-form-label col-sm-auto s_website_form_label"
-                                           style="width: 200px" for="contact1">
-                                        <span class="s_website_form_label_content">Machine</span>
-                                        <span class="s_website_form_mark">*</span>
-                                    </label>
-                                    <div class="col-sm">
-                                        <select id="machine_id" required="True" class="form-control"
-                                                name="machine_id">
-                                            <t t-foreach="request.env['machine.management'].sudo().search([])"
-                                               t-as="machine">
-                                                <option style="display:none"/>
-                                                <option t-att-value="machine.id" t-esc="machine.name"/>
-                                            </t>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom s_website_form_required"
-                                 data-type="selection" data-name="service_frequency">
-                                <div class="row s_col_no_resize s_col_no_bgcolor">
-                                    <label class="col-form-label col-sm-auto s_website_form_label"
-                                           style="width: 200px" for="contact1">
-                                        <span class="s_website_form_label_content">Service frequency</span>
-                                        <span class="s_website_form_mark">*</span>
-                                    </label>
-                                    <div class="col-sm">
-                                        <select id="service_frequency" required="True" class="form-control"
-                                                name="service_frequency">
-                                            <option style="display:none"/>
-                                            <option value="weekly">Weekly</option>
-                                            <option value="monthly">Monthly</option>
-                                            <option value="yearly">Yearly</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom s_website_form_required"
-                                 data-type="date" data-name="last_service_date">
-                                <div class="row s_col_no_resize s_col_no_bgcolor">
-                                    <label class="col-form-label col-sm-auto s_website_form_label"
-                                           style="width: 200px" for="contact1">
-                                        <span class="s_website_form_label_content">Last service date</span>
-                                        <span class="s_website_form_mark">*</span>
-                                    </label>
-                                    <div class="col-sm">
-                                        <input id="last_service_date" type="date"
-                                               class="form-control s_website_form_input"
-                                               name="last_service_date" required=""/>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
-                                <div style="width: 200px;" class="s_website_form_label"/>
-                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </section>
             </div>
         </t>
     </template>
-
 
     <record id="service_request_thanks" model="website.page">
         <field name="name">Thanks (Service)</field>
@@ -142,7 +172,4 @@
         </field>
     </record>
 
-
 </odoo>
-
-
