@@ -22,7 +22,7 @@ class MachineService(models.Model):
         ('started', 'Started'),
         ('done', 'Done'),
         ('cancel', 'Cancel'),
-    ], string='State', required=True, copy=False, tracking=True, default='open', store=True)
+    ], string='State', required=True, copy=False, default='open', store=True)
     company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self: self.env.company,
                                  help="Name of the company")
     parts_ids = fields.Many2many('machine.part', 'machine_id')
@@ -35,7 +35,7 @@ class MachineService(models.Model):
     next_service_date = fields.Date('Next service date', help="Date of next service",
                                     compute='_compute_next_service_date')
     # image = fields.Image('image', help="Image of the machine to service")
-    attachment_ids = fields.Many2many('ir.attachment', 'attach_rel', 'doc_id', 'attach_id', string="Attachment",
+    attachment_ids = fields.Many2many('ir.attachment', 'attach_rel_ids', 'doc_id', 'attach_id', string="Attachment",
                                   help='You can upload your document', copy=False)
     active = fields.Boolean(default=True)
 

@@ -8,6 +8,7 @@ from odoo.exceptions import ValidationError
 
 class MachineTransferReport(models.AbstractModel):
     _name = "report.machine_management.machine_transfer_report"
+    _description = "Machine Transfer Report"
 
     query = """select 
                machine_management.name as machine,

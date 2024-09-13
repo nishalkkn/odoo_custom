@@ -8,11 +8,11 @@ class CreateReportWizard(models.TransientModel):
     _name = 'machine.wizard'
     _description = "Machine Wizard"
 
-    machine_id = fields.Many2one('machine.management', 'Machine')
-    from_date = fields.Date('From Date')
-    to_date = fields.Date('To Date')
-    customer_id = fields.Many2one('res.partner', 'Customer')
-    transfer_type = fields.Selection([('install', 'Install'), ('remove', 'Remove')], 'Transfer type')
+    machine_id = fields.Many2one('machine.management', 'Machine', help="Name of the machine")
+    from_date = fields.Date('From Date', help="Service date shown from which date")
+    to_date = fields.Date('To Date', help="Service date upto which date")
+    customer_id = fields.Many2one('res.partner', 'Customer', help="Customer for the machine")
+    transfer_type = fields.Selection([('install', 'Install'), ('remove', 'Remove')], 'Transfer type', help="Transferring type of the machine")
 
     def action_print_record(self):
         """print pdf button in wizard"""
