@@ -16,7 +16,8 @@ class MachineManagement(models.Model):
     description = fields.Text('Description')
     warranty = fields.Boolean('Warranty', help="Is any warranty for machine")
     machine_instructions = fields.Html('Machine instructions')
-    image = fields.Image('image', help="Image of the machine")
+    # image = fields.Image('image', help="Image of the machine")
+    image = fields.Binary('imagesss', help="Image of the machine")
     state = fields.Selection(selection=[
         ('active', 'Active'),
         ('in_service', 'In service'),

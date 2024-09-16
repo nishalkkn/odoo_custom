@@ -12,10 +12,10 @@
         </section>
     </template>
 
-    <template id="external_snippets" inherit_id="website.snippets" priority="8">
-        <xpath expr="//div[@id='snippet_content']//t[@t-snippet][last()]" position="after">
-            <t t-snippet="machine_management.basic_snippet"/>
-        </xpath>
-    </template>
+<!--    <template id="external_snippets" inherit_id="website.snippets" priority="8">-->
+<!--        <xpath expr="//div[@id='snippet_content']//t[@t-snippet][last()]" position="after">-->
+<!--            <t t-snippet="machine_management.basic_snippet"/>-->
+<!--        </xpath>-->
+<!--    </template>-->
 
 </odoo>
