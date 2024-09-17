@@ -1,33 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <template id="machine_list" name="Dynamic Snippet">
-        <section class="s_text_block pt40 pb40 o_colored_level">
-            <section class="container dynamic_snippet">
-                <h3 class="text-center">Machines</h3>
-                <div class="row">
-                    <t t-foreach="data" t-as="machine">
-                        <a id="hiii" t-attf-href="##{unique_ids}" class="carousel-control-prev" data-bs-slide="prev"
-                           role="button" aria-label="Previous" title="Previous">
-                            <span class="fa fa-chevron-circle-left fa-2x"/>
-                            <span class="visually-hidden">Previous</span>
-                        </a>
-                        <a t-attf-href="##{unique_ids}" class="carousel-control-next" data-bs-slide="next"
-                           role="button" aria-label="Next" title="Next">
-                            <span class="fa fa-chevron-circle-right fa-2x"/>
-                            <span class="visually-hidden">Next</span>
-                        </a>
-                        <div class="p-3 col-md-3">
-                            <div class="card" style="width: 18rem;">
-                                <img t-att-src="machine['image']" height="220"/>
-                                <div class="card-body">
-                                    <h5 class="card-title text-center"
-                                        t-esc="machine['machine']"/>
-                                </div>
-                            </div>
-                        </div>
-                    </t>
-                </div>
-            </section>
+        <section class="best_seller_product_snippet">
+            <div class="ref-arrival-content">
+                <p class="ref-section_head ref-centerhead__underline ref-head--primary"
+                   style="color: #0d5272;">Machines
+                </p>
+            </div>
+            <div id="top_machines_carousel"/>
         </section>
     </template>
+
+    <template id="dynamic_snippet" inherit_id="website.snippets"
+              name="Snippet">
+        <xpath expr="//div[@id='snippet_effect']//t[@t-snippet][last()]"
+               position="after">
+            <t t-snippet="machine_management.machine_list"/>
+        </xpath>
+    </template>
+
 </odoo>

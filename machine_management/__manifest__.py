@@ -25,10 +25,8 @@ This is a base module for managing machine and machine transfer and machine serv
         'views/machine_service_view.xml',
         'views/website_menu.xml',
         'views/website_template.xml',
-        'views/dynamic_snippet.xml',
         'views/dynamic_snippet_template.xml',
-
-        'views/elearning_snippet.xml',
+        'views/website_order_tracking_menu.xml',
 
         'security/security.xml',
         'security/record_rules.xml',
@@ -52,11 +50,7 @@ This is a base module for managing machine and machine transfer and machine serv
         ],
         'web.assets_frontend': [
             'machine_management/static/src/js/dynamic_snippet.js',
-
-
             'machine_management/static/src/xml/dynamic_courosel.xml',
-            'machine_management/static/src/js/snippet.js',
-
         ],
     },
 

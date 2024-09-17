@@ -1,29 +1,30 @@
-/** @odoo-module **/
+/** @odoo-module */
 
-import publicWidget from "@web/legacy/js/public/public_widget";
+
+import PublicWidget from "@web/legacy/js/public/public_widget";
 import { jsonrpc } from "@web/core/network/rpc_service";
+import { renderToFragment } from "@web/core/utils/render";
 
-publicWidget.registry.DynamicSnippet = publicWidget.Widget.extend({
-   selector: '.dynamic_snippet',
+function chunk(array, size) {
+    const result = [];
+    for (let i = 0; i < array.length; i += size) {
+        result.push(array.slice(i, i + size));
+    }
+    return result;
+}
 
-   events: {
-       	'click .carousel-control-prev': '_onClickPrev',
-   	},
-
-   	_onClickPrev: function(ev){
-   	    var data = jsonrpc('/machine/list', {})
-//        console.log('data',data);
-    	},
-
-   start: function () {
-       var self = this;
-       var data = jsonrpc('/machine/list', {}).then((data) => {
-           self.$target.empty().append(data)
-//           console.log('ffff',data)
-//           console.log('this',this)
-
-       });
-   }
+PublicWidget.registry.DynamicSnippet = PublicWidget.Widget.extend({
+    selector: '.dynamic_snippet',
+    willStart: async function() {
+        this.data = await jsonrpc('/machine_lists', {})
+    },
+    start: function() {
+        const refEl = this.$el.find("#top_machines_carousel")
+        const chunkData = chunk(this.data, 4)
+        chunkData[0].is_active = true
+        refEl.html(renderToFragment('machine_management.machine_created_wise', {
+            chunkData
+        }))
+    }
 });
-
-export default publicWidget.registry.DynamicSnippet;
+return PublicWidget.registry.DynamicSnippet
