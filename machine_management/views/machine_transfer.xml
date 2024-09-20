@@ -42,6 +42,8 @@
                             <field name="transfer_type"/>
                             <field name="company_id"/>
                             <field name="customer_id" invisible="transfer_type in 'remove'" required="1"/>
+                            <field name="from_location" invisible="transfer_type in 'remove'" required="1"/>
+                            <field name="to_location" invisible="transfer_type in 'remove'" required="1"/>
                         </group>
                     </group>
                     <notebook>

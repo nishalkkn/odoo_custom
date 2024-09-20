@@ -1,4 +1,3 @@
-
 import base64
 
 from odoo import Command
@@ -8,11 +7,13 @@ from odoo.http import request
 
 class WebFormController(Controller):
     @route('/webform', auth='public', website=True)
-    def web_form(self, **kwargs):
+    def web_form(self):
+        """controller to open view form in website """
         return request.render('machine_management.web_form_template')
 
     @route('/webform/submit', type='http', auth='public', website=True, methods=['POST'])
     def web_form_submit(self, **post):
+        """controller when submitting service request form"""
         attachment = request.env['ir.attachment']
         files = request.httprequest.files.getlist('image')
         machine_service = request.env['machine.service'].sudo().create({

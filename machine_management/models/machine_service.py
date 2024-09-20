@@ -36,7 +36,7 @@ class MachineService(models.Model):
                                     compute='_compute_next_service_date')
     # image = fields.Image('image', help="Image of the machine to service")
     attachment_ids = fields.Many2many('ir.attachment', 'attach_rel_ids', 'doc_id', 'attach_id', string="Attachment",
-                                  help='You can upload your document', copy=False)
+                                      help='You can upload your document', copy=False)
     active = fields.Boolean(default=True)
 
     @api.depends('machine_id')

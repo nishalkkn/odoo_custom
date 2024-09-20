@@ -10,7 +10,8 @@
 							<t t-foreach="chunk" t-as="item" t-key="item_index">
 								<div class="p-3 col-md-3">
 									<div class="card" style="width: 18rem;">
-										<img t-attf-src="data:image/png;base64,{{item.image}}"
+										<img class="card-img-top"
+                                             t-attf-src="data:image/png;base64,{{item.image}}"
                                              height="250"/>
                                         <div class="card-body">
 											<h5 class="card-title text-center"
@@ -23,16 +24,16 @@
 					</div>
 				</t>
 			</div>
+            <a class="carousel-control-prev" href="#machine_carousel" role="button" data-bs-slide="prev"
+               aria-label="Previous" title="Previous">
+				<span class="fa fa-chevron-circle-left fa-2x"/>
+                <span class="visually-hidden">Previous</span>
+			</a>
+            <a class="carousel-control-next" href="#machine_carousel" role="button" data-bs-slide="next"
+               aria-label="Next" title="Next">
+				<span class="fa fa-chevron-circle-right fa-2x"/>
+                <span class="visually-hidden">Next</span>
+			</a>
 		</div>
-        <a t-attf-href="#machine_carousel" class="carousel-control-prev" data-bs-slide="prev" role="button"
-           aria-label="Previous" title="Previous">
-			<span class="fa fa-chevron-circle-left fa-2x"/>
-            <span class="visually-hidden">Previous</span>
-		</a>
-        <a t-attf-href="#machine_carousel" class="carousel-control-next" data-bs-slide="next" role="button"
-           aria-label="Next" title="Next">
-			<span class="fa fa-chevron-circle-right fa-2x"/>
-            <span class="visually-hidden">Next</span>
-		</a>
 	</t>
 </templates>

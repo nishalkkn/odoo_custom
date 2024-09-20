@@ -3,21 +3,15 @@
 
     <template id="machine_list" name="Dynamic Snippet">
         <section class="best_seller_product_snippet">
-            <div class="ref-arrival-content">
-                <p class="ref-section_head ref-centerhead__underline ref-head--primary"
-                   style="color: #0d5272;">Machines
-                </p>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-center py-5">
+                        <div class="h3" style="text-align:center">Machines</div>
+                        <div id="top_machines_carousel"/>
+                    </div>
+                </div>
             </div>
-            <div id="top_machines_carousel"/>
         </section>
-    </template>
-
-    <template id="dynamic_snippet" inherit_id="website.snippets"
-              name="Snippet">
-        <xpath expr="//div[@id='snippet_effect']//t[@t-snippet][last()]"
-               position="after">
-            <t t-snippet="machine_management.machine_list"/>
-        </xpath>
     </template>
 
 </odoo>

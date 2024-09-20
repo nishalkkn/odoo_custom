@@ -18,12 +18,12 @@ class ResPartner(models.Model):
         """archiving machine belongs to customer"""
         res = super().action_archive()
         machine = self.env['machine.management'].search([('customer_id.id', '=', self.id)])
-        machine.write({'active':False})
+        machine.write({'active': False})
         return res
 
     def action_unarchive(self):
         """un-archiving machine belongs to customer"""
         res = super().action_unarchive()
-        machine = self.env['machine.management'].search([('customer_id.id', '=', self.id),('active', '=', False)])
+        machine = self.env['machine.management'].search([('customer_id.id', '=', self.id), ('active', '=', False)])
         machine.write({'active': True})
         return res

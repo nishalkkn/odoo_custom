@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 
 from odoo import fields, models
@@ -12,7 +13,8 @@ class CreateReportWizard(models.TransientModel):
     from_date = fields.Date('From Date', help="Service date shown from which date")
     to_date = fields.Date('To Date', help="Service date upto which date")
     customer_id = fields.Many2one('res.partner', 'Customer', help="Customer for the machine")
-    transfer_type = fields.Selection([('install', 'Install'), ('remove', 'Remove')], 'Transfer type', help="Transferring type of the machine")
+    transfer_type = fields.Selection([('install', 'Install'), ('remove', 'Remove')], 'Transfer type',
+                                     help="Transferring type of the machine")
 
     def action_print_record(self):
         """print pdf button in wizard"""

@@ -1,7 +1,7 @@
 {
     'name': "Machine Management",
     'application': True,
-    'version': '17.0.1.0.9',
+    'version': '17.0.1.0.12',
     'summary': 'Machine management, transfer and service',
     'description': """
 This is a base module for managing machine and machine transfer and machine service
@@ -15,6 +15,7 @@ This is a base module for managing machine and machine transfer and machine serv
         'hr',
         'account',
         'website',
+        'web',
     ],
 
     'data': [
@@ -26,7 +27,10 @@ This is a base module for managing machine and machine transfer and machine serv
         'views/website_menu.xml',
         'views/website_template.xml',
         'views/dynamic_snippet_template.xml',
-        'views/website_order_tracking_menu.xml',
+        'views/dynamic_snippet_menu.xml',
+        'views/web_transfer_track_menu.xml',
+        'views/web_transfer_track_template.xml',
+        'views/web_transfer_details.xml',
 
         'security/security.xml',
         'security/record_rules.xml',
@@ -51,6 +55,7 @@ This is a base module for managing machine and machine transfer and machine serv
         'web.assets_frontend': [
             'machine_management/static/src/js/dynamic_snippet.js',
             'machine_management/static/src/xml/dynamic_courosel.xml',
+            'machine_management/static/src/js/web_transfer_track.js',
         ],
     },
 

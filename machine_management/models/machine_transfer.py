@@ -18,6 +18,8 @@ class MachineTransfer(models.Model):
     active = fields.Boolean(default=True)
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.company, help="Company name")
+    from_location = fields.Text('From Location')
+    to_location = fields.Text('To Location')
 
     @api.onchange('machine_id')
     def _onchange_machine_id(self):
