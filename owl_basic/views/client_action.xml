@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="advanced_dashboard_action" model="ir.actions.client">
-        <field name="name">Advanced dashboard</field>
+        <field name="name">Advanced Dashboard</field>
         <field name="tag">advanced_dashboard</field>
     </record>
-
-    <menuitem name="dashboard" id="advanced_dashboard_menu" sequence="1" action="advanced_dashboard_action"/>
+    <menuitem name="Owl Basics" id="advanced_dashboard_menu"
+        sequence="1" action="advanced_dashboard_action"/>
 </odoo>

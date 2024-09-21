@@ -10,11 +10,18 @@ This is a base module for setting a rating field in POS product view
     'depends': [
         'base',
         'product',
+        'point_of_sale',
     ],
 
-    'data':[
+    'data': [
         'views/product.xml',
     ],
+    'assets': {
+        'point_of_sale._assets_pos': [
+            'pos_rating/static/src/xml/product_widget.xml',
+            'pos_rating/static/src/xml/pos_screen.xml',
+        ],
+    },
 
     'license': 'LGPL-3',
 

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-inherit="owl_basic.input_box" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('InputDiv')]" position="inside">
+            <button t-on-click="()=> this.demoFunctionPatch(1)" >add</button>
+            <button t-on-click="()=> this.demoFunctionPatch(-1)">neg</button>
+            <button t-on-click="demo" >ref</button>
+            <button t-on-click="useServiceFunc">useService</button>
+            <t t-esc="state.value"/>
+        </xpath>
+    </t>
+</templates>

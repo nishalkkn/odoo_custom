@@ -10,31 +10,8 @@ function chunk(array, size) {
     for (let i = 0; i < array.length; i += size) {
         result.push(array.slice(i, i + size));
     }
-    console.log(typeof(result))
     return result;
 }
-
-//function chunk(array, size) {
-//    const result = [];
-//    for (let i = 0; i < array.length; i += size) {
-//        result.push(array.slice(i, i + size));
-//
-//        console.log('result', result)
-//    }
-//    console.log('re',result)
-//    return result;
-//}
-
-
-//function chunk(array, size) {
-//    for (let i = 0; i < array.length; i += size) {
-//        array = array.splice(i, i + size);
-//        array = array.slice(i, i + size);
-//        console.log(array)
-//    }
-//    console.log(typeof(array))
-//    return array;
-//}
 
 
 PublicWidget.registry.DynamicSnippet = PublicWidget.Widget.extend({
