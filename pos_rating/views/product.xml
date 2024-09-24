@@ -7,7 +7,6 @@
         <field name="arch" type="xml">
             <field name="barcode" position="after">
                 <field name="product_rating" widget="priority"/>
-                <field name="demo"/>
             </field>
         </field>
     </record>

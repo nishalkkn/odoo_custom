@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="extra_cost_view_tree" model="ir.ui.view">
+        <field name="name">extra.cost.tree</field>
+        <field name="model">extra.cost</field>
+        <field name="arch" type="xml">
+            <tree string="Channel" editable="bottom">
+                <field name="charge"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+</odoo>
+

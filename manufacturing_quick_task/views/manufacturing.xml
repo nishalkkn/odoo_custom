@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="manufacturing_customizations_form" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_create_bill" string="Create Bill" type="object" class="oe_highlight"
+                        invisible="state in 'draft' or state in 'confirmed' or state in 'cancel'"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Extra cost">
+                    <field name="extra_cost_ids"/>
+                </page>
+            </xpath>
+            <field name="product_id" position="after">
+                <field name="cost_of_components"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

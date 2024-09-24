@@ -20,6 +20,9 @@ This is a base module for setting a rating field in POS product view
         'point_of_sale._assets_pos': [
             'pos_rating/static/src/xml/product_widget.xml',
             'pos_rating/static/src/xml/pos_screen.xml',
+            # 'pos_rating/static/src/xml/pos_receipt.xml',
+
+            # 'pos_rating/static/src/js/pos_receipt.js',
         ],
     },
 

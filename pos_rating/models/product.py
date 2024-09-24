@@ -4,9 +4,7 @@ from odoo import models, fields
 class ProductRatingField(models.Model):
     _inherit = "product.product"
 
-    product_rating = fields.Selection([('poor','Poor'),('fair','Fair'),('good','Good'),('very_good','Very Good'),('excellent','Excellent')],help="Rating of the product")
-    demo = fields.Char()
-
+    product_rating = fields.Selection([('0','none'),('1','Poor'),('2','Fair'),('3','Good'),('4','Very Good'),('5','Excellent')],help="Rating of the product")
 
 class PosSession(models.Model):
     _inherit = 'pos.session'
